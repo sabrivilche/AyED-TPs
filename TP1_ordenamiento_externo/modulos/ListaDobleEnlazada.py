@@ -52,7 +52,7 @@ class ListaDobleEnlazada:
               aux.anterior = self.cola
               self.cola.siguiente = aux
               self.cola = aux
-        elif posicion > 0 and posicion <= self.tamanio:
+        elif posicion > contador and posicion <= self.tamanio:
             self.anterior = aux
             aux.siguiente = aux
         #else:
