@@ -39,8 +39,22 @@ class ListaDobleEnlazada:
 
         tamanio+=1
 
-    #def insertar_interior(self,item,posicion=None):
+    def recorrer_lista(self):
+        aux_inicio = self.cabeza
+        while aux_inicio:
+          print(aux_inicio.item)
+          aux_inicio = aux_inicio.siguiente
 
+    def insertar_interior(self,item,posicion=None):
+        contador = 0
+        aux = Nodo(item)
+        if posicion == None:
+              aux.anterior = self.cola
+              self.cola.siguiente = aux
+              self.cola = aux
+        else:
+              while contador <= posicion:
+                contador += 1
 
         
 
