@@ -39,7 +39,8 @@ class ListaDobleEnlazada:
 
         tamanio+=1
 
-   # def insertar_interior(self,item,posicion=None):
+    #def insertar_interior(self,item,posicion=None):
+
 
         
 
