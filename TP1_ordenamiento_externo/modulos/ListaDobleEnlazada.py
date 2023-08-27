@@ -13,7 +13,7 @@ class ListaDobleEnlazada:
     def recorrer_lista(self):
         aux=self.cabeza
         while aux:
-            print(aux.item)#No reconoce variable item
+            print(aux.dato)#No reconoce variable item
             aux=aux.siguiente
 
     def agregar_al_inicio(self,item):
