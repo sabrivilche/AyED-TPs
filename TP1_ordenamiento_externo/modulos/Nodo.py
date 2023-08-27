@@ -1,5 +1,6 @@
 class Nodos:
-    def __init__(self,):
-        self.dato=dato
-        self.inicio=inicio
-        self.final=final
+
+    def __init__(self,datoInicial):
+        self.dato=datoInicial
+        self.anterior=None
+        self.siguiente=None
