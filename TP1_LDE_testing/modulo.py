@@ -46,7 +46,7 @@ class ListaDobleEnlazada:
             self.cabeza=aux
         
 
-        tamanio+=1
+        self.tamanio+=1
 
 
     def agregar_al_final(self,item):
@@ -62,7 +62,7 @@ class ListaDobleEnlazada:
             self.cola.anterior=aux
 
 
-        tamanio+=1
+        self.tamanio+=1
 
 
     def recorrer_lista(self):
