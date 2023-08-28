@@ -44,8 +44,8 @@ class Test_LDE(unittest.TestCase):
                                 "Los datos arrojados en el for no coinciden con los datos "
                                 "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
-'''
-    def test_agregar_al_inicio(self):
+
+'''    def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
         la misma tiene tamaño correcto y se llena correctamente
