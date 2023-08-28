@@ -11,7 +11,7 @@ class ListaDobleEnlazada:
     def vacia(self):
         return self.cabeza is None
 
-    def agregar(self, dato):
+    def agregar(self, dato):#para probar que la lista se puede iterar correctamente
         aux = Nodo(dato)
         if self.vacia():
             self.cabeza = aux
