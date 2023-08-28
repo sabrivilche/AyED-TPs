@@ -25,7 +25,7 @@ class ListaDobleEnlazada:
     def __iter__(self):
         aux = self.cabeza
         while aux:
-            yield aux.dato
+            yield aux.dato#muestra el nodo actual y avanza al siguiente
             aux = aux.siguiente
 
 class Test_LDE(unittest.TestCase):
