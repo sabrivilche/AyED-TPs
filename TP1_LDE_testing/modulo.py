@@ -1,70 +1,63 @@
+import random
+import unittest
 from Nodo import Nodo
 
-
 class ListaDobleEnlazada:
-
     def __init__(self):
-
-        self.cabeza=None
-
-        self.cola=None
-
-        self.tamanio=0
-
+        self.cabeza = None
+        self.cola = None
+        self.tamanio = 0
 
     def vacia(self):
+        return self.cabeza is None
 
-        return self.cabeza==None
-
-
-    def recorrer_lista(self):
-
-        aux_inicio = self.cabeza
-
-        while aux_inicio:
-
-          print(aux_inicio.dato)
-
-          aux_inicio = aux_inicio.siguiente
-
-
-    def agregar_al_inicio(self,item):
-
+    def agregar(self, dato):
+        aux_nuevo = Nodo(dato)
         if self.vacia():
-
-            self.cabeza = self.cola=Nodo(item)
-
+            self.cabeza = aux_nuevo
+            self.cola = aux_nuevo
         else:
-
-            aux=Nodo(item)
-
-            aux.siguiente=self.cabeza
-
-            self.cabeza.anterior = aux
-
-            self.cabeza=aux
-        
-
+            aux_nuevo.anterior = self.cola
+            self.cola.siguiente = aux_nuevo
+            self.cola = aux_nuevo
         self.tamanio += 1
 
+    def __iter__(self):
+        current = self.cabeza
+        while current:
+            yield current.dato
+            current = current.siguiente
 
-    def agregar_al_final(self,item):
+class Test_LDE(unittest.TestCase):
+    """Test de la clase ListaDobleEnlazada"""
 
-        if self.vacia():
+    def setUp(self):
+        self.n_elementos = 200
+        """ LDE vacía """
+        self.lde_1 = ListaDobleEnlazada()
 
-            self.cabeza=self.cola=Nodo(item)
-        
-        else:
-            aux=self.cola
+        """ LDE con elementos repetidos con lista auxiliar"""
+        self.lde_2 = ListaDobleEnlazada()
+        self.lista_aux_2 = random.choices(range(-self.n_elementos // 2, self.n_elementos // 2), k=self.n_elementos)
+        for item in self.lista_aux_2:
+            self.lde_2.agregar(item)
 
-            self.cola=aux.siguiente=Nodo(item)
-            self.cola.anterior=aux
+        """LDE de elementos no repetidos con lista auxiliar"""
+        self.lde_3 = ListaDobleEnlazada()
+        self.lista_aux_3 = random.sample(range(-self.n_elementos, self.n_elementos), self.n_elementos)
+        for item in self.lista_aux_3:
+            self.lde_3.agregar(item)
 
+    def test_iteracion(self):
+        nodo = self.lde_2.cabeza
+        for dato in self.lde_2:
+            self.assertEqual(nodo.dato, dato)
+            nodo = nodo.siguiente
 
-        self.tamanio += 1
+if __name__ == "__main__":
+    unittest.main()
 
-
-    def insertar_interior(self,item,posicion=None):
+'''    def insertar_interior(self,item,posicion=None):
         aux = Nodo(item)
         if self.vacia():#si la lista está vacia el item ingresado es la cabeza y cola a la vez
             self.cabeza = aux
@@ -96,9 +89,4 @@ class ListaDobleEnlazada:
             aux.anterior.siguiente = aux#esto no era lo que habia dicho el profe que no existia?
             actual.anterior = aux
         self.tamanio += 1
-
-
-        
-
-
-     
+'''
