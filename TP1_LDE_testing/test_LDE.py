@@ -30,7 +30,7 @@ class Test_LDE(unittest.TestCase):
             self.lde_3.agregar_al_final(item)
 
         # self.posicion = random.randint(1, self.n_elementos - 1)  # randint incluye el extremo
-'''
+
     def test_iteracion(self):
         """
         Verificamos que tenga sobrecargado los métodos necesarios para ser
@@ -41,10 +41,10 @@ class Test_LDE(unittest.TestCase):
         nodo = self.lde_2.cabeza
         for dato in self.lde_2:
             self.assertEqual(nodo.dato, dato,
-                             "Los datos arrojados en el for no coinciden con los datos "
-                             "obtenidos por recorrido manual de la LDE desde la cabeza")
+                                "Los datos arrojados en el for no coinciden con los datos "
+                                "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
-
+'''
     def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
