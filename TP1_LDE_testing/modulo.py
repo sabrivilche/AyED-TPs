@@ -23,10 +23,10 @@ class ListaDobleEnlazada:
         self.tamanio += 1
 
     def __iter__(self):
-        current = self.cabeza
-        while current:
-            yield current.dato
-            current = current.siguiente
+        aux = self.cabeza
+        while aux:
+            yield aux.dato
+            aux = aux.siguiente
 
 class Test_LDE(unittest.TestCase):
     """Test de la clase ListaDobleEnlazada"""
