@@ -1,4 +1,4 @@
-from Nodo import Nodos
+from Nodo import Nodo
 
 class ListaDobleEnlazada:
 
@@ -52,7 +52,7 @@ class ListaDobleEnlazada:
               aux.anterior = self.cola
               self.cola.siguiente = aux
               self.cola = aux
-        elif posicion > contador and posicion <= self.tamanio:
+        elif posicion > 0 and posicion <= self.tamanio:
             self.anterior = aux
             aux.siguiente = aux
         #else:

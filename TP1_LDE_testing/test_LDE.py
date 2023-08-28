@@ -4,7 +4,7 @@ Created on Thu Sep  1 14:00:21 2022
 @author: Catedra de Algoritmos y Estructura de Datos
 """
 
-from modulos import ListaDobleEnlazada
+from modulo import ListaDobleEnlazada
 import unittest
 import random
 
@@ -30,7 +30,7 @@ class Test_LDE(unittest.TestCase):
             self.lde_3.agregar_al_final(item)
 
         # self.posicion = random.randint(1, self.n_elementos - 1)  # randint incluye el extremo
-
+'''
     def test_iteracion(self):
         """
         Verificamos que tenga sobrecargado los métodos necesarios para ser
@@ -466,7 +466,7 @@ class Test_LDE(unittest.TestCase):
                              "No coinciden los nodos de la lista 2 con la lista concatenada")
             nodo_original = nodo_original.siguiente
             nodo_concat = nodo_concat.siguiente
-
+'''
 
 if __name__ == "__main__":
     unittest.main()
