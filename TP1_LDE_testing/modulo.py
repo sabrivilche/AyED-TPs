@@ -98,6 +98,7 @@ class ListaDobleEnlazada:
          #     while contador <= posicion:
 
           #      contador += 1
+          #ola
 
         
 
