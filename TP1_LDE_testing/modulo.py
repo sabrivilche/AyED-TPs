@@ -28,6 +28,15 @@ class ListaDobleEnlazada:
 
             aux=aux.siguiente
 
+    def agregar(self, item):
+        aux = Nodo(item)
+        if not self.cabeza:
+            self.cabeza = aux
+            self.cola = aux
+        else:
+            aux.anterior = self.cola
+            self.cola.siguiente = aux
+            self.cola = aux
 
     def agregar_al_inicio(self,item):
 
