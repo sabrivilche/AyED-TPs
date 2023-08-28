@@ -12,14 +12,14 @@ class ListaDobleEnlazada:
         return self.cabeza is None
 
     def agregar(self, dato):
-        aux_nuevo = Nodo(dato)
+        aux = Nodo(dato)
         if self.vacia():
-            self.cabeza = aux_nuevo
-            self.cola = aux_nuevo
+            self.cabeza = aux
+            self.cola = aux
         else:
-            aux_nuevo.anterior = self.cola
-            self.cola.siguiente = aux_nuevo
-            self.cola = aux_nuevo
+            aux.anterior = self.cola
+            self.cola.siguiente = aux
+            self.cola = aux
         self.tamanio += 1
 
     def __iter__(self):
