@@ -28,6 +28,30 @@ class ListaDobleEnlazada:
             yield aux.dato#muestra el nodo actual y avanza al siguiente
             aux = aux.siguiente
 
+    def agregar_al_inicio(self,item):
+        if self.vacia():
+            self.cabeza=self.cola=Nodo(item)
+        
+        else:
+            aux_inicio=Nodo(item)
+            aux_inicio.siguiente=self.cabeza
+            self.cabeza.anterior=aux_inicio
+            self.cabeza=aux_inicio
+        
+        self.tamanio+=1
+    
+    def agregar_al_final(self,item):
+        if self.vacia():
+            self.cabeza=self.cola=Nodo(item)
+        
+        else:
+            aux_final=self.cola
+            self.cola=aux_final.siguiente=Nodo(item)
+            self.cola.anterior=aux_final
+        
+        self.tamanio+=1
+
+
 class Test_LDE(unittest.TestCase):
     """Test de la clase ListaDobleEnlazada"""
 
