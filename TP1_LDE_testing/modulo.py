@@ -74,7 +74,7 @@ class ListaDobleEnlazada:
         self.tamanio+=1
 
 
-    def recorrer_lista(self):
+    def __iter__(self):
 
         aux_inicio = self.cabeza
 
