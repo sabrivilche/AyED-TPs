@@ -41,12 +41,7 @@ class ListaDobleEnlazada:
         #self.assertEqual (aux_tamanio, len(lista),"Tamaño de lista diferente a los nodos recorridos")
 
     def recorrer_lista(self, lista):
-        """
-        Metodo auxiliar para usar en tests de métodos complejos
-        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
-        esten bien enlazados entre sí (forward y backward).
-        """
-
+        
         # Recorro de adelante para atras
         nodo = lista.cabeza
         counter = 0
