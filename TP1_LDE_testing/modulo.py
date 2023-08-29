@@ -77,6 +77,46 @@ class Test_LDE(unittest.TestCase):
         for dato in self.lde_2:
             self.assertEqual(nodo.dato, dato)
             nodo = nodo.siguiente
+    
+    def test_agregar_al_inicio(self):
+            """
+            pruebo que al agregar elementos al inicio de la lista
+            la misma tiene tamaño correcto y se llena correctamente
+            """
+            valorNuevo = 25
+
+            # Agregar al inicio de lista no vacia
+            lde2_copia = self.lde_2.copiar()
+            lde2_copia.agregar_al_inicio(valorNuevo)
+
+            self.recorrer_lista(lde2_copia)
+            self.assertEqual(len(self.lde_2), len(lde2_copia) - 1,
+                            "El tamaño de la lista luego de agregar debe incrementarse en uno")
+
+            nodo_copia = lde2_copia.cabeza
+            self.assertEqual(nodo_copia.dato, valorNuevo,
+                            "El primer nodo no contiene el valor que se solicito agregar")
+
+            nodo_copia = nodo_copia.siguiente
+            nodo_original = self.lde_2.cabeza
+            while nodo_original.siguiente is not None:
+                self.assertEqual(nodo_original.dato, nodo_copia.dato,
+                                "Se modificaron los datos de la lista luego de agregar el nuevo elemento")
+                nodo_original = nodo_original.siguiente
+                nodo_copia = nodo_copia.siguiente
+
+            # Anexar en lista vacia (self.lde_1)
+            lde1_copia = self.lde_1.copiar()
+            lde1_copia.agregar_al_inicio(valorNuevo)
+
+            self.recorrer_lista(lde1_copia)
+            self.assertEqual(len(lde1_copia), 1,
+                            "Al agregar un elemento al inicio de una lista vacia, su nuevo tamaño debe ser uno")
+
+            self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
+                            "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
+            self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
+                        "En una lista de un elemento, la cabeza es la misma que la cola")
 
 if __name__ == "__main__":
     unittest.main()
