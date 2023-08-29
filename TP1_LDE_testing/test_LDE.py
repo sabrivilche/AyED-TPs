@@ -45,7 +45,7 @@ class Test_LDE(unittest.TestCase):
                                 "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
 
-'''    def test_agregar_al_inicio(self):
+    def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
         la misma tiene tamaño correcto y se llena correctamente
@@ -184,8 +184,83 @@ class Test_LDE(unittest.TestCase):
                           "La LDE debe arrojar excepcion al intentar insertar en posición negativa")
         self.assertRaises(Exception, self.lde_2.insertar, 210, self.n_elementos + 10,
                           "La LDE debe arrojar excepcion al intentar insertar en posición mayor al tamaño")
+    
+    def test_operador_len(self):
+        """
+        Prueba que este sobrecargado el operador len() para la LDE
+        """
+        self.assertEqual(len(self.lde_1), 0, "No funciona el operador len() en la LDE")
+        self.assertEqual(len(self.lde_2), self.n_elementos, "No funciona el operador len() en la LDE")
 
-    def test_extraer_extremos(self):
+    def test_copiar(self):
+        """
+        hago una copia de una LDE con elementos y sin elementos
+        y comparo nodo a nodo para verificar la copia.
+        """
+        lde_3_copia = self.lde_3.copiar()
+
+        # Compruebo la integridad fisica de la lista original
+        self.recorrer_lista(self.lde_3)
+        # Compruebo que la lista copiada este correctamente enlazada
+        self.recorrer_lista(lde_3_copia)
+
+        nodo_original = self.lde_3.cabeza
+        nodo_copia = lde_3_copia.cabeza
+
+        # Compruebo longitud de las listas
+        self.assertEqual(len(lde_3_copia), len(self.lde_3),
+                         "Los tamaños de las listas copiadas nos son las mismas.")
+        # Compruebo que las listas sean instancias diferentes
+        self.assertIsNot(lde_3_copia, self.lde_3,
+                         "Las listas copiadas son referencias al mismo espacio de memoria.")
+
+        while nodo_original or nodo_copia:
+            # Compruebo igualdad del contenido de ambas listas
+            self.assertEqual(nodo_original.dato, nodo_copia.dato,
+                             "Los datos de la lista copiada no son iguales a los de la lista original")
+            # Compruebo que los nodos de ambas listas sean instancias diferentes
+            self.assertIsNot(nodo_original, nodo_copia,
+                             "Los nodos de las lista copiada son compartidos con los de la lista original")
+            nodo_original = nodo_original.siguiente
+            nodo_copia = nodo_copia.siguiente
+        
+        def recorrer_lista(self, lista):
+        """
+        Metodo auxiliar para usar en tests de métodos complejos
+        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
+        esten bien enlazados entre sí (forward y backward).
+        """
+
+        # Recorro de adelante para atras
+        nodo = lista.cabeza
+        counter = 0
+        elementos = []
+
+        self.assertIsNone(nodo.anterior,
+                          "El elemento anterior a la cabeza de la lista debe ser None")
+
+        while nodo is not None:
+            counter += 1
+            elementos.append(nodo.dato)
+            nodo = nodo.siguiente
+
+        self.assertEqual(len(lista), counter,
+                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
+
+        # Recorro de atras para adelante
+        nodo = lista.cola
+
+        self.assertIsNone(nodo.siguiente,
+                          "El elemento siguiente a la cola de la lista debe ser None")
+
+        while nodo is not None:
+            counter -= 1
+            self.assertEqual(elementos[counter], nodo.dato,
+                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
+                             "a que si la recorremos de adelante para atrás.")
+            nodo = nodo.anterior
+
+'''    def test_extraer_extremos(self):
         """
         pruebo extraer ítems al inicio y al final de la LDE
         con/sin parámetro, verifico el valor extraído y el tamaño
@@ -280,44 +355,7 @@ class Test_LDE(unittest.TestCase):
         self.assertRaises(Exception, self.lde_2.extraer, self.n_elementos + 50,
                           "Extraer de una posicion mayor al tamaño de la lista menos uno dede arrojar error")
 
-    def test_operador_len(self):
-        """
-        Prueba que este sobrecargado el operador len() para la LDE
-        """
-        self.assertEqual(len(self.lde_1), 0, "No funciona el operador len() en la LDE")
-        self.assertEqual(len(self.lde_2), self.n_elementos, "No funciona el operador len() en la LDE")
-
-    def test_copiar(self):
-        """
-        hago una copia de una LDE con elementos y sin elementos
-        y comparo nodo a nodo para verificar la copia.
-        """
-        lde_3_copia = self.lde_3.copiar()
-
-        # Compruebo la integridad fisica de la lista original
-        self.recorrer_lista(self.lde_3)
-        # Compruebo que la lista copiada este correctamente enlazada
-        self.recorrer_lista(lde_3_copia)
-
-        nodo_original = self.lde_3.cabeza
-        nodo_copia = lde_3_copia.cabeza
-
-        # Compruebo longitud de las listas
-        self.assertEqual(len(lde_3_copia), len(self.lde_3),
-                         "Los tamaños de las listas copiadas nos son las mismas.")
-        # Compruebo que las listas sean instancias diferentes
-        self.assertIsNot(lde_3_copia, self.lde_3,
-                         "Las listas copiadas son referencias al mismo espacio de memoria.")
-
-        while nodo_original or nodo_copia:
-            # Compruebo igualdad del contenido de ambas listas
-            self.assertEqual(nodo_original.dato, nodo_copia.dato,
-                             "Los datos de la lista copiada no son iguales a los de la lista original")
-            # Compruebo que los nodos de ambas listas sean instancias diferentes
-            self.assertIsNot(nodo_original, nodo_copia,
-                             "Los nodos de las lista copiada son compartidos con los de la lista original")
-            nodo_original = nodo_original.siguiente
-            nodo_copia = nodo_copia.siguiente
+    
 
     def test_invertir(self):
 
@@ -366,41 +404,7 @@ class Test_LDE(unittest.TestCase):
             self.assertEqual(self.lista_aux_3[i], dato,
                              "Los datos en la lista no se ordenaron correctamente")
 
-    def recorrer_lista(self, lista):
-        """
-        Metodo auxiliar para usar en tests de métodos complejos
-        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
-        esten bien enlazados entre sí (forward y backward).
-        """
 
-        # Recorro de adelante para atras
-        nodo = lista.cabeza
-        counter = 0
-        elementos = []
-
-        self.assertIsNone(nodo.anterior,
-                          "El elemento anterior a la cabeza de la lista debe ser None")
-
-        while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
-
-        self.assertEqual(len(lista), counter,
-                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
-
-        # Recorro de atras para adelante
-        nodo = lista.cola
-
-        self.assertIsNone(nodo.siguiente,
-                          "El elemento siguiente a la cola de la lista debe ser None")
-
-        while nodo is not None:
-            counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                             "a que si la recorremos de adelante para atrás.")
-            nodo = nodo.anterior
 
     def test_metodo_concatenar(self):
         """

@@ -367,6 +367,13 @@ class Test_LDE(unittest.TestCase):
         self.assertRaises(Exception, self.lde_2.insertar_interior, 210, self.n_elementos + 10,
                           "La LDE debe arrojar excepcion al intentar insertar en posición mayor al tamaño")
     
+    def test_operador_len(self):
+        """
+        Prueba que este sobrecargado el operador len() para la LDE
+        """
+        self.assertEqual(len(self.lde_1), 0, "No funciona el operador len() en la LDE")
+        self.assertEqual(len(self.lde_2), self.n_elementos, "No funciona el operador len() en la LDE")
+       
 
 if __name__ == "__main__":
     unittest.main()
