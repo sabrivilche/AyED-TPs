@@ -323,6 +323,31 @@ class Test_LDE(unittest.TestCase):
 
         self.assertEqual(valor, 250)
 
+    def test_insertar_extremos(self):
+        """
+        inserto ítems en los extremos de la LDE, compruebo
+        tamaño correcto y su valor.
+        """
+
+        """inserto 1er item al inicio"""
+        self.lde_2.insertar_interior(120, 0)
+        self.n_elementos += 1
+        self.assertEqual(len(self.lde_2), self.n_elementos)
+        self.assertEqual(self.lde_2.cabeza.dato, 120)
+
+        """inserto 2do item en la última posición"""
+        self.lde_2.insertar_interior(180, len(self.lde_2) - 1)
+        self.n_elementos += 1
+        self.assertEqual(len(self.lde_2), self.n_elementos)
+        nodo_actual = self.lde_2.cabeza
+        nodo_anterior = None
+        valor = None
+        while nodo_actual.siguiente:
+            nodo_anterior = nodo_actual
+            nodo_actual = nodo_actual.siguiente
+            valor = nodo_anterior.dato
+        self.assertEqual(valor, 180)
+
 if __name__ == "__main__":
     unittest.main()
     
