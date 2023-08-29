@@ -7,7 +7,7 @@ class ListaDobleEnlazada:
         self.cabeza = None
         self.cola = None
         self.tamanio = 0
-    
+
     def __len__ (self):
         return self.tamanio
 
@@ -30,36 +30,46 @@ class ListaDobleEnlazada:
         while aux:
             yield aux.dato
             aux = aux.siguiente
+            
 
-    def recorrer_lista(lista):
-    #Adelante para atrás
-        nodo = lista.cabeza#primer elemento de la lista
-        counter = 0 #para contar los nodos dentro de la lista
-        elementos = [] #va a almacenar los nodos
 
-        assert nodo.anterior is None#el elemento anterior a la cabeza tiene que ser None, si no se cumple se muestra un mensaje, "El elemento anterior a la cabeza de la lista debe ser None"
+    def recorrer_lista(self, lista):
+        
+        # Recorro de adelante para atras
+        nodo = lista.cabeza
+        counter = 0
+        elementos = []
+
+        self.assertIsNone(nodo.anterior,
+                          "El elemento anterior a la cabeza de la lista debe ser None")
+
         while nodo is not None:
-            counter += 1 #para avanzar en los nodos
-            elementos.append(nodo.dato) #cada vez que se recibe un nuevo nodo se guarda en la lista elementos
-            nodo = nodo.siguiente #una vez que se agrega a la lista avanzamos al otro nodo
-        assert len(lista) == counter#compara el valor de "counter" con el tamaño de la lista, si no coinciden se muestra un mensaje, "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma."
-    #Atrás para adelante
-        nodo = lista.cola #asignamos a nodo el último elemento de la lista
-        assert nodo.siguiente is None #el nodo siguiente de la cola debe ser None, "El elemento siguiente a la cola de la lista debe ser None"
+            counter += 1
+            elementos.append(nodo.dato)
+            nodo = nodo.siguiente
+
+        self.assertEqual(len(lista), counter,
+                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
+
+        # Recorro de atras para adelante
+        nodo = lista.cola
+
+        self.assertIsNone(nodo.siguiente,
+                          "El elemento siguiente a la cola de la lista debe ser None")
+
         while nodo is not None:
             counter -= 1
-            assert elementos[counter] == nodo.dato#verificamos si los elementos son los mismos que en el recorrido de adelante para atrás, "Los elementos en la lista recorrida de atrás para adelante son diferentes a los recorridos de adelante para atrás."
-            nodo = nodo.anterior#para moverse al nodo anterior de la lista
+            self.assertEqual(elementos[counter], nodo.dato,
+                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
+                             "a que si la recorremos de adelante para atrás.")
+            nodo = nodo.anterior
 
     def copiar(self):
         copiar = ListaDobleEnlazada()
-        aux_actual = self.cabeza
-        while aux_actual:
-            copiar.agregar(aux_actual.dato)
-            aux_actual = aux_actual.siguiente
-        
-        #self.recorrer_lista (self)#recorre la lista original
-        #self.recorrer_lista(copiar)#recorre la lista copia
+        aux = self.cabeza
+        while aux:
+            copiar.agregar(aux.dato)
+            aux = aux.siguiente
         return copiar
     
     def agregar_al_inicio(self,item):
@@ -119,7 +129,6 @@ class ListaDobleEnlazada:
 
 
 
-
 class Test_LDE(unittest.TestCase):
     """Test de la clase ListaDobleEnlazada"""
 
@@ -150,42 +159,6 @@ class Test_LDE(unittest.TestCase):
                                 "Los datos arrojados en el for no coinciden con los datos "
                                 "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
-    
-    def recorrer_lista(self, lista):
-        """
-        Metodo auxiliar para usar en tests de métodos complejos
-        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
-        esten bien enlazados entre sí (forward y backward).
-        """
-
-        # Recorro de adelante para atras
-        nodo = lista.cabeza
-        counter = 0
-        elementos = []
-
-        self.assertIsNone(nodo.anterior,
-                          "El elemento anterior a la cabeza de la lista debe ser None")
-
-        while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
-
-        self.assertEqual(len(lista), counter,
-                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
-
-        # Recorro de atras para adelante
-        nodo = lista.cola
-
-        self.assertIsNone(nodo.siguiente,
-                          "El elemento siguiente a la cola de la lista debe ser None")
-
-        while nodo is not None:
-            counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                             "a que si la recorremos de adelante para atrás.")
-            nodo = nodo.anterior
     
 
     def test_copiar(self):
