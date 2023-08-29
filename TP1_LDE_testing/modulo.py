@@ -30,18 +30,6 @@ class ListaDobleEnlazada:
         while aux:
             yield aux.dato
             aux = aux.siguiente
-            
-    #def recorrer_lista(self,lista):
-     #   aux = lista.cabeza
-      #  aux_tamanio = 0 #el tamaño actual de la lista
-       # anterior = None
-        #while aux:
-         #   aux_tamanio += 1
-          #  if anterior:
-           #     self.assertIs (anterior.siguiente, aux, "Enlace nterior no es igual a enlace actual")
-            #    anterior = aux
-             #   aux = aux.siguiente
-        #self.assertEqual (aux_tamanio, len(lista),"Tamaño de lista diferente a los nodos recorridos")
 
     def recorrer_lista(lista):
     #Adelante para atrás
@@ -73,7 +61,61 @@ class ListaDobleEnlazada:
         #self.recorrer_lista (self)#recorre la lista original
         #self.recorrer_lista(copiar)#recorre la lista copia
         return copiar
+    
+    def agregar_al_inicio(self,item):
+        if self.vacia():
+            self.cabeza=self.cola=Nodo(item)
+        
+        else:
+            aux_inicio=Nodo(item)
+            aux_inicio.siguiente=self.cabeza
+            self.cabeza.anterior=aux_inicio
+            self.cabeza=aux_inicio
+        
+        self.tamanio+=1
+    def agregar_al_final(self,item):
+        if self.vacia():
+            self.cabeza=self.cola=Nodo(item)
+        
+        else:
+            aux_final=self.cola
+            self.cola=aux_final.siguiente=Nodo(item)
+            self.cola.anterior=aux_final
+        
+        self.tamanio+=1
 
+    def insertar_interior(self,item,posicion=None):
+        aux = Nodo(item)
+        if self.vacia():#si la lista está vacia el item ingresado es la cabeza y cola a la vez
+            self.cabeza = aux
+            self.cola = aux
+            self.tamanio += 1
+            return
+        
+        if posicion == 0:#si la posición dada es = 0 la cabeza pasa a ser el dato siguiente y el aux la cabeza
+            aux.siguiente = self.cabeza
+            self.cabeza.anterior = aux
+            self.cabeza = aux
+        
+        elif posicion == None:#si no se agrega posición el nuevo elemento ingresa al final de la lista
+              aux.anterior = self.cola
+              self.cola.siguiente = aux
+              self.cola = aux
+              if posicion >= self.tamanio:
+                  return Exception('Posición fuera de rango')#Si la posición ingresada es mayor que el tamaño de la lista muestra un mensaje
+              
+        else:
+            actual = self.cabeza
+            contador = 0
+
+            while contador < posicion:
+                actual = actual.siguiente
+                contador += 1
+            aux.siguiente = actual
+            aux.anterior = actual.anterior
+            aux.anterior.siguiente = aux
+            actual.anterior = aux
+        self.tamanio += 1
 
 
 
@@ -177,7 +219,7 @@ class Test_LDE(unittest.TestCase):
                              "Los nodos de las lista copiada son compartidos con los de la lista original")
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
-'''    
+    
     def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
@@ -216,64 +258,76 @@ class Test_LDE(unittest.TestCase):
         self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
                          "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
-                      "En una lista de un elemento, la cabeza es la misma que la cola")'''
+                      "En una lista de un elemento, la cabeza es la misma que la cola")
+    def test_agregar_al_final(self):
+        """
+        pruebo que al anexar elementos al final de la lista
+        la misma tiene tamaño correcto y se llena correctamente
+        """
+
+        valorNuevo = 25
+
+        # Anexar en lista no vacia
+        lde2_copia = self.lde_2.copiar()
+        lde2_copia.agregar_al_final(valorNuevo)
+
+        self.recorrer_lista(lde2_copia)
+        self.assertEqual(len(self.lde_2), len(lde2_copia) - 1,
+                         "El tamaño de la lista luego de anexar debe incrementarse en uno")
+
+        nodo_original = self.lde_2.cabeza
+        nodo_copia = lde2_copia.cabeza
+        while nodo_original.siguiente is not None:
+            self.assertEqual(nodo_original.dato, nodo_copia.dato,
+                             "Se modificaron los datos de la lista luego de anexar el nuevo elemento")
+            nodo_original = nodo_original.siguiente
+            nodo_copia = nodo_copia.siguiente
+
+        nodo_copia = nodo_copia.siguiente
+        self.assertEqual(nodo_copia.dato, valorNuevo,
+                         "El ultimo nodo no contiene el valor que se solicito agregar")
+        self.assertIs(nodo_copia, lde2_copia.cola,
+                      "El ultimo nodo no coincide con la refencia a la cola de la lista")
+
+        # Anexar en lista vacia (self.lde_1)
+        lde1_copia = self.lde_1.copiar()
+        lde1_copia.agregar_al_final(valorNuevo)
+
+        self.recorrer_lista(lde1_copia)
+        self.assertEqual(len(lde1_copia), 1,
+                         "Al anexar un elemento en una lista vacia, su nuevo tamaño debe ser uno")
+
+        self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
+                         "El nodo anexado a la lista vacia no contiene el valor que se solicito agregar")
+        self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
+                      "En una lista de un elemento, la cabeza es la misma que la cola")
+    def test_insertar_interior(self):
+        """
+        pruebo insertar un ítem en una posición aleatoria
+        de la LDE y compruebo que el elemento es insertado
+        """
+        # print(f"\nPosición aleatoria donde se inserta: {self.posicion}")
+        posicion = random.randint(1, self.n_elementos - 1)
+
+        self.lde_2.insertar_interior(250, posicion)
+        self.n_elementos += 1
+        self.assertEqual(self.lde_2.tamanio, self.n_elementos)
+
+        contador = 0
+        nodo_actual = self.lde_2.cabeza
+        valor = None
+        while nodo_actual and contador != posicion:
+            contador += 1
+            nodo_actual = nodo_actual.siguiente
+            valor = nodo_actual.dato
+
+        self.assertEqual(valor, 250)
 
 if __name__ == "__main__":
     unittest.main()
     
-''' def agregar_al_inicio(self,item):
-        if self.vacia():
-            self.cabeza=self.cola=Nodo(item)
-        
-        else:
-            aux_inicio=Nodo(item)
-            aux_inicio.siguiente=self.cabeza
-            self.cabeza.anterior=aux_inicio
-            self.cabeza=aux_inicio
-        
-        self.tamanio+=1
-    def agregar_al_final(self,item):
-        if self.vacia():
-            self.cabeza=self.cola=Nodo(item)
-        
-        else:
-            aux_final=self.cola
-            self.cola=aux_final.siguiente=Nodo(item)
-            self.cola.anterior=aux_final
-        
-        self.tamanio+=1
+ 
+    
 
-
-    def insertar_interior(self,item,posicion=None):
-        aux = Nodo(item)
-        if self.vacia():#si la lista está vacia el item ingresado es la cabeza y cola a la vez
-            self.cabeza = aux
-            self.cola = aux
-            self.tamanio += 1
-            return
-        
-        if posicion == 0:#si la posición dada es = 0 la cabeza pasa a ser el dato siguiente y el aux la cabeza
-            aux.siguiente = self.cabeza
-            self.cabeza.anterior = aux
-            self.cabeza = aux
-        
-        elif posicion == None or posicion >= self.tamanio:#si no se agrega posición el nuevo elemento ingresa al final de la lista
-              aux.anterior = self.cola
-              self.cola.siguiente = aux
-              self.cola = aux
-              if posicion >= self.tamanio:
-                  return Exception('Posición fuera de rango')#no se si esto está bien
-        #lo de self.tamanio no debería mostrar un cartel que esa posición no existe en vez de agregarlo al final directamente? 
-        else:
-            actual = self.cabeza
-            contador = 0
-
-            while contador < posicion:
-                actual = actual.siguiente
-                contador += 1
-            aux.siguiente = actual
-            aux.anterior = actual.anterior
-            aux.anterior.siguiente = aux#esto no era lo que habia dicho el profe que no existia?
-            actual.anterior = aux
-        self.tamanio += 1
+'''    
 '''
