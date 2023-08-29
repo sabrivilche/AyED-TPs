@@ -126,6 +126,7 @@ class ListaDobleEnlazada:
             aux.anterior.siguiente = aux
             actual.anterior = aux
         self.tamanio += 1
+    
 
 
 
@@ -160,6 +161,41 @@ class Test_LDE(unittest.TestCase):
                                 "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
     
+    def recorrer_lista(self, lista):
+        """
+        Metodo auxiliar para usar en tests de métodos complejos
+        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
+        esten bien enlazados entre sí (forward y backward).
+        """
+
+        # Recorro de adelante para atras
+        nodo = lista.cabeza
+        counter = 0
+        elementos = []
+
+        self.assertIsNone(nodo.anterior,
+                          "El elemento anterior a la cabeza de la lista debe ser None")
+
+        while nodo is not None:
+            counter += 1
+            elementos.append(nodo.dato)
+            nodo = nodo.siguiente
+
+        self.assertEqual(len(lista), counter,
+                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
+
+        # Recorro de atras para adelante
+        nodo = lista.cola
+
+        self.assertIsNone(nodo.siguiente,
+                          "El elemento siguiente a la cola de la lista debe ser None")
+
+        while nodo is not None:
+            counter -= 1
+            self.assertEqual(elementos[counter], nodo.dato,
+                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
+                             "a que si la recorremos de adelante para atrás.")
+            nodo = nodo.anterior
 
     def test_copiar(self):
         """
@@ -321,11 +357,17 @@ class Test_LDE(unittest.TestCase):
             valor = nodo_anterior.dato
         self.assertEqual(valor, 180)
 
+    def test_excepciones_insertar(self):
+        """
+        intento insertar en posiciones incorrectas o no existentes de
+        la LDE y compruebo que se lanzan las excepciones correspondientes
+        """
+        self.assertRaises(Exception, self.lde_2.insertar_interior, 210, -10,
+                          "La LDE debe arrojar excepcion al intentar insertar en posición negativa")
+        self.assertRaises(Exception, self.lde_2.insertar_interior, 210, self.n_elementos + 10,
+                          "La LDE debe arrojar excepcion al intentar insertar en posición mayor al tamaño")
+    
+
 if __name__ == "__main__":
     unittest.main()
     
- 
-    
-
-'''    
-'''
