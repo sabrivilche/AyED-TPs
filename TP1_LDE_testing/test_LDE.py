@@ -224,7 +224,7 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
         
-        def recorrer_lista(self, lista):
+    def recorrer_lista(self, lista):
         """
         Metodo auxiliar para usar en tests de métodos complejos
         de la clase lista doblemente enlazada. Verifica que los nodos de la lista
@@ -259,44 +259,6 @@ class Test_LDE(unittest.TestCase):
                              "Los elementos en la lista recorrida de atras para adelante son diferentes "
                              "a que si la recorremos de adelante para atrás.")
             nodo = nodo.anterior
-
-'''    def test_extraer_extremos(self):
-        """
-        pruebo extraer ítems al inicio y al final de la LDE
-        con/sin parámetro, verifico el valor extraído y el tamaño
-        resultante de la LDE
-        """
-        # Extraer al inicio
-        self.assertEqual(self.lde_3.extraer(0), self.lista_aux_3.pop(0),
-                         "No se extrajo correctamente los elementos de la lista")
-        self.assertEqual(len(self.lde_3), self.n_elementos - 1,
-                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
-        # Verificamos que la lista este correctamente enlazada
-        self.recorrer_lista(self.lde_3)
-
-        # Extraer al final sin parámetro
-        self.assertEqual(self.lde_3.extraer(), self.lista_aux_3.pop(),
-                         "Cuando no se pasa argumento, se debe extraer el ultimo elemento de la lista")
-        self.assertEqual(len(self.lde_3), self.n_elementos - 2,
-                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
-        # Verificamos que la lista este correctamente enlazada
-        self.recorrer_lista(self.lde_3)
-
-        # Extraer al final usando parámetro
-        self.assertEqual(self.lde_3.extraer(len(self.lde_3) - 1), self.lista_aux_3.pop(),
-                         "No se extrajo correctamente los elementos de la lista")
-        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 3,
-                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
-        # Verificamos que la lista este correctamente enlazada
-        self.recorrer_lista(self.lde_3)
-
-        # Extraer al final parámetro -1
-        self.assertEqual(self.lde_3.extraer(-1), self.lista_aux_3.pop(),
-                         "No se extrajo correctamente los elementos de la lista")
-        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 4,
-                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
-        # Verificamos que la lista este correctamente enlazada
-        self.recorrer_lista(self.lde_3)
 
     def test_extraer_interior(self):
         """
@@ -354,6 +316,50 @@ class Test_LDE(unittest.TestCase):
                           "Extraer de una posicion negativa dede arrojar error")
         self.assertRaises(Exception, self.lde_2.extraer, self.n_elementos + 50,
                           "Extraer de una posicion mayor al tamaño de la lista menos uno dede arrojar error")
+
+    
+
+'''    
+    def test_extraer_extremos(self):
+        """
+        pruebo extraer ítems al inicio y al final de la LDE
+        con/sin parámetro, verifico el valor extraído y el tamaño
+        resultante de la LDE
+        """
+        # Extraer al inicio
+        self.assertEqual(self.lde_3.extraer(0), self.lista_aux_3.pop(0),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(len(self.lde_3), self.n_elementos - 1,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final sin parámetro
+        self.assertEqual(self.lde_3.extraer(), self.lista_aux_3.pop(),
+                         "Cuando no se pasa argumento, se debe extraer el ultimo elemento de la lista")
+        self.assertEqual(len(self.lde_3), self.n_elementos - 2,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final usando parámetro
+        self.assertEqual(self.lde_3.extraer(len(self.lde_3) - 1), self.lista_aux_3.pop(),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 3,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final parámetro -1
+        self.assertEqual(self.lde_3.extraer(-1), self.lista_aux_3.pop(),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 4,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+    
+
+    
 
     
 

@@ -31,38 +31,30 @@ class ListaDobleEnlazada:
             yield aux.dato
             aux = aux.siguiente
             
-
-
     def recorrer_lista(self, lista):
-        
-        # Recorro de adelante para atras
-        nodo = lista.cabeza
-        counter = 0
-        elementos = []
+        #Adelante para atras
+        aux_nodo = lista.cabeza #nos posicionamos en el primer elemento de la lista
+        contador = 0 #contador para los nodos
+        aux_lista = [] #lista vacia para almacenar los datos mientras se recorre la lista
 
-        self.assertIsNone(nodo.anterior,
-                          "El elemento anterior a la cabeza de la lista debe ser None")
+        assert aux_nodo.anterior is None #Elemento anterior a la cabeza tiene que ser None, si no es así va a mostrar un mensaje
 
-        while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
+        while aux_nodo is not None:#recorre la lista de principio a fin
+            contador += 1 #se incrementa el contador en cada iteración
+            aux_lista.append(aux_nodo.dato) #se van agregando los nodos recorridos a la lista aux_lista
+            aux_nodo = aux_nodo.siguiente #pasamos al siguiente nodo
 
-        self.assertEqual(len(lista), counter,
-                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
+        assert len(lista) == contador #El valor de contador debe coincidir con el tamaño de la lista, de lo contrario muestra un mensaje
 
-        # Recorro de atras para adelante
-        nodo = lista.cola
+        #Atrás para adelante
+        aux_nodo = lista.cola #nos posicionamos en el último elemento
 
-        self.assertIsNone(nodo.siguiente,
-                          "El elemento siguiente a la cola de la lista debe ser None")
+        assert aux_nodo.siguiente is None #El nodo siguiente al nodo cola tiene que ser None
 
-        while nodo is not None:
-            counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                             "a que si la recorremos de adelante para atrás.")
-            nodo = nodo.anterior
+        while aux_nodo is not None: #los elementos deben ser los mismos que en el recorrido de adelante para atrás
+            contador -= 1
+            assert aux_lista[contador] == aux_nodo.dato #si los nodos no son los mismos mostrará un mensaje
+            aux_nodo = aux_nodo.anterior #pasamos al nodo anterior
 
     def copiar(self):
         copiar = ListaDobleEnlazada()
@@ -94,7 +86,7 @@ class ListaDobleEnlazada:
         
         self.tamanio+=1
 
-    def insertar_interior(self,item,posicion=None):
+    def insertar_interior(self,item,posicion = None):
         aux = Nodo(item)
         if self.vacia():#si la lista está vacia el item ingresado es la cabeza y cola a la vez
             self.cabeza = aux
@@ -126,8 +118,37 @@ class ListaDobleEnlazada:
             aux.anterior.siguiente = aux
             actual.anterior = aux
         self.tamanio += 1
-    
 
+
+    def extraer_interior(self, posicion = None):
+        if self.vacia():
+            raise Exception('La lista está vacía')
+
+        if posicion < 0 or posicion >= self.tamanio:
+            raise Exception('Posición fuera de rango')
+
+        aux_actual = self.cabeza #primer nodo
+
+        for _ in range(posicion):#me muevo "posicion" veces, en cada iteración se actualiza "aux_actual"
+            aux_actual = aux_actual.siguiente
+
+        aux_eliminado = aux_actual.dato #guardo el dato eliminado en "aux_eliminado"
+        anterior = aux_actual.anterior #nodos anterior y siguiente al nodo aux_actual
+        siguiente = aux_actual.siguiente
+
+        if anterior: #si anterior no es None
+            anterior.siguiente = siguiente #el enlace del nodo siguiente al nodo anterior se actualiza para "saltar" el nodo eliminado (aux_eliminar)
+        else: #si es None
+            self.cabeza = siguiente #la cabeza será el nodo siguiente
+
+        if siguiente: #si siguiente no es None
+            siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
+        else: #si es None
+            self.cola = anterior #la cola pasa a ser el nodo anterior
+
+        self.tamanio -= 1 #reduce el tamaño de la lista
+        return aux_eliminado #devuelte el elemento eliminado
+    
 
 
 class Test_LDE(unittest.TestCase):
@@ -310,6 +331,7 @@ class Test_LDE(unittest.TestCase):
                          "El nodo anexado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
                       "En una lista de un elemento, la cabeza es la misma que la cola")
+        
     def test_insertar_interior(self):
         """
         pruebo insertar un ítem en una posición aleatoria
@@ -373,8 +395,103 @@ class Test_LDE(unittest.TestCase):
         """
         self.assertEqual(len(self.lde_1), 0, "No funciona el operador len() en la LDE")
         self.assertEqual(len(self.lde_2), self.n_elementos, "No funciona el operador len() en la LDE")
-       
 
+    def test_extraer_interior(self):
+        """
+        extraigo un elemento de una posición aleatoria de la lista
+        con elementos no repetidos y compruebo que el mismo no permanece
+        en la lista
+        """
+        posicion = random.randint(1, self.n_elementos - 1)
+        lde3_copia = self.lde_3.copiar()
+
+        item = lde3_copia.extraer_interior(posicion)
+
+        # Verifico tamaño
+        self.assertEqual(len(lde3_copia), len(self.lde_3) - 1,
+                         "No se modifico correctamente el tamaño de la lista luego de la extracción")
+
+        # Verifico que este correctamente enlazada
+        self.recorrer_lista(lde3_copia)
+
+        nodo_original = self.lde_3.cabeza
+        nodo_copia = lde3_copia.cabeza
+        contador_pos = 0
+        while nodo_original is not None:
+            if contador_pos == posicion:
+                self.assertEqual(nodo_original.dato, item,
+                                 "El elemento extraido no coincide con el elemento originariamente en la posicion solicitada")
+                nodo_original = nodo_original.siguiente
+            self.assertEqual(nodo_original.dato, nodo_copia.dato,
+                             "Luego de la extracción los demás elementos de la lista se vieron alterados")
+            nodo_original = nodo_original.siguiente
+            nodo_copia = nodo_copia.siguiente
+            contador_pos += 1
+    def test_excepciones_extraer(self):
+        """
+        pruebo extraer en una lista vacía y en posiciones fuera
+        de los límites de la LDE. Compruebo las excepciones
+        """
+        # LDE vacía
+        self.assertRaises(Exception, self.lde_1.extraer_interior,
+                          "Extraer de una lista vacia deberia arrojar un error")
+        self.assertRaises(Exception, self.lde_1.extraer_interior, 0,
+                          "Extraer de una lista vacia deberia arrojar un error")
+        self.assertRaises(Exception, self.lde_1.extraer_interior, -1,
+                          "Extraer de una lista vacia deberia arrojar un error")
+        self.assertRaises(Exception, self.lde_1.extraer_interior, self.n_elementos - 1,
+                          "Extraer de una lista vacia deberia arrojar un error")
+        self.assertRaises(Exception, self.lde_1.extraer_interior, self.n_elementos + 10,
+                          "Extraer de una lista vacia deberia arrojar un error")
+        self.assertRaises(Exception, self.lde_1.extraer_interior, -(self.n_elementos + 10),
+                          "Extraer de una lista vacia deberia arrojar un error")
+
+        # LDE no vacia
+        self.assertRaises(Exception, self.lde_2.extraer_interior, -50,
+                          "Extraer de una posicion negativa dede arrojar error")
+        self.assertRaises(Exception, self.lde_2.extraer_interior, self.n_elementos + 50,
+                          "Extraer de una posicion mayor al tamaño de la lista menos uno dede arrojar error")
+       
+    
+'''    def test_extraer_extremos(self):
+        """
+        pruebo extraer ítems al inicio y al final de la LDE
+        con/sin parámetro, verifico el valor extraído y el tamaño
+        resultante de la LDE
+        """
+        # Extraer al inicio
+        self.assertEqual(self.lde_3.extraer_interior(0), self.lista_aux_3.pop(0),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(len(self.lde_3), self.n_elementos - 1,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final sin parámetro
+        self.assertEqual(self.lde_3.extraer_interior(), self.lista_aux_3.pop(),
+                         "Cuando no se pasa argumento, se debe extraer el ultimo elemento de la lista")
+        self.assertEqual(len(self.lde_3), self.n_elementos - 2,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final usando parámetro
+        self.assertEqual(self.lde_3.extraer_interior(len(self.lde_3) - 1), self.lista_aux_3.pop(),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 3,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+
+        # Extraer al final parámetro -1
+        self.assertEqual(self.lde_3.extraer_interior(-1), self.lista_aux_3.pop(),
+                         "No se extrajo correctamente los elementos de la lista")
+        self.assertEqual(self.lde_3.tamanio, self.n_elementos - 4,
+                         "No se actualizo debidamente el tamaño de la lista luego de extraer")
+        # Verificamos que la lista este correctamente enlazada
+        self.recorrer_lista(self.lde_3)
+    
+'''
 if __name__ == "__main__":
     unittest.main()
     
