@@ -31,8 +31,6 @@ class ListaDobleEnlazada:
             yield aux.dato
             aux = aux.siguiente
             
-
-
     def recorrer_lista(self, lista):
         
         # Recorro de adelante para atras
