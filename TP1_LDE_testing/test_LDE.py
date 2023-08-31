@@ -41,11 +41,11 @@ class Test_LDE(unittest.TestCase):
         nodo = self.lde_2.cabeza
         for dato in self.lde_2:
             self.assertEqual(nodo.dato, dato,
-                                "Los datos arrojados en el for no coinciden con los datos "
-                                "obtenidos por recorrido manual de la LDE desde la cabeza")
+                             "Los datos arrojados en el for no coinciden con los datos "
+                             "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
 
-'''    def test_agregar_al_inicio(self):
+    def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
         la misma tiene tamaño correcto y se llena correctamente
@@ -466,7 +466,7 @@ class Test_LDE(unittest.TestCase):
                              "No coinciden los nodos de la lista 2 con la lista concatenada")
             nodo_original = nodo_original.siguiente
             nodo_concat = nodo_concat.siguiente
-'''
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -31,36 +31,6 @@ class ListaDobleEnlazada:
             yield aux.dato
             aux = aux.siguiente
             
-    def recorrer_lista(self, lista):
-        
-        # Recorro de adelante para atras
-        nodo = lista.cabeza
-        counter = 0
-        elementos = []
-
-        self.assertIsNone(nodo.anterior,
-                          "El elemento anterior a la cabeza de la lista debe ser None")
-
-        while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
-
-        self.assertEqual(len(lista), counter,
-                         "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
-
-        # Recorro de atras para adelante
-        nodo = lista.cola
-
-        self.assertIsNone(nodo.siguiente,
-                          "El elemento siguiente a la cola de la lista debe ser None")
-
-        while nodo is not None:
-            counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                             "a que si la recorremos de adelante para atrás.")
-            nodo = nodo.anterior
 
     def copiar(self):
         copiar = ListaDobleEnlazada()
@@ -92,7 +62,7 @@ class ListaDobleEnlazada:
         
         self.tamanio+=1
 
-    def insertar_interior(self,item,posicion=None):
+    def insertar(self,item,posicion = None):
         aux = Nodo(item)
         if self.vacia():#si la lista está vacia el item ingresado es la cabeza y cola a la vez
             self.cabeza = aux
@@ -126,179 +96,42 @@ class ListaDobleEnlazada:
         self.tamanio += 1
 
 
+    def extraer(self, posicion=None):
+        if self.vacia():
+            raise Exception('La lista está vacía')
 
-class Test_LDE(unittest.TestCase):
-    """Test de la clase ListaDobleEnlazada"""
+        elif (posicion is not None) and (posicion != self.tamanio -1):
+            if  posicion < 0 or posicion >= self.tamanio:
+                raise Exception('Posición fuera de rango')
+            else: 
+                aux_actual = self.cabeza #primer nodo
 
-    def setUp(self):
-        self.n_elementos = 200
-        """ LDE vacía """
-        self.lde_1 = ListaDobleEnlazada()
+                for _ in range(posicion):#me muevo "posicion" veces, en cada iteración se actualiza "aux_actual"
+                    aux_actual = aux_actual.siguiente
 
-        """ LDE con elementos repetidos con lista auxiliar"""
-        self.lde_2 = ListaDobleEnlazada()
-        self.lista_aux_2 = random.choices(range(-self.n_elementos // 2, self.n_elementos // 2), k=self.n_elementos)
-        for item in self.lista_aux_2:
-            self.lde_2.agregar(item)
+                aux_eliminado = aux_actual.dato #guardo el dato eliminado en "aux_eliminado"
+                anterior = aux_actual.anterior #nodos anterior y siguiente al nodo aux_actual
+                siguiente = aux_actual.siguiente
+                if anterior: #si anterior no es None
+                    anterior.siguiente = siguiente #el enlace del nodo siguiente al nodo anterior se actualiza para "saltar" el nodo eliminado (aux_eliminar)
+                else: #si es None
+                    self.cabeza = siguiente #la cabeza será el nodo siguiente
 
-        """LDE de elementos no repetidos con lista auxiliar"""
-        self.lde_3 = ListaDobleEnlazada()
-        self.lista_aux_3 = random.sample(range(-self.n_elementos, self.n_elementos), self.n_elementos)
-        for item in self.lista_aux_3:
-            self.lde_3.agregar(item)
+                if siguiente: #si siguiente no es None
+                    siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
+                else: #si es None
+                    self.cola = anterior #la cola pasa a ser el nodo anterior
+                self.tamanio -= 1
 
-        # self.posicion = random.randint(1, self.n_elementos - 1)  # randint incluye el extremo
+        elif (posicion == None) or (posicion == self.tamanio-1):
+            aux_actual = self.cola
+            aux_eliminado = aux_actual.dato 
+            #aux_actual.anterior = self.cola
+            aux_actual.anterior.siguiente = None
+            self.cola = aux_actual.anterior
+            self.tamanio -= 1 
 
-    def test_iteracion(self):
-
-        nodo = self.lde_2.cabeza
-        for dato in self.lde_2:
-            self.assertEqual(nodo.dato, dato,
-                                "Los datos arrojados en el for no coinciden con los datos "
-                                "obtenidos por recorrido manual de la LDE desde la cabeza")
-            nodo = nodo.siguiente
+        #reduce el tamaño de la lista
+        return aux_eliminado #devuelte el elemento eliminado
     
 
-    def test_copiar(self):
-        """
-        hago una copia de una LDE con elementos y sin elementos
-        y comparo nodo a nodo para verificar la copia.
-        """
-        lde_3_copia = self.lde_3.copiar()
-
-        # Compruebo la integridad fisica de la lista original
-        self.recorrer_lista(self.lde_3)
-        # Compruebo que la lista copiada este correctamente enlazada
-        self.recorrer_lista(lde_3_copia)
-
-        nodo_original = self.lde_3.cabeza
-        nodo_copia = lde_3_copia.cabeza
-
-        # Compruebo longitud de las listas
-        self.assertEqual(len(lde_3_copia), len(self.lde_3),
-                         "Los tamaños de las listas copiadas nos son las mismas.")
-        # Compruebo que las listas sean instancias diferentes
-        self.assertIsNot(lde_3_copia, self.lde_3,
-                         "Las listas copiadas son referencias al mismo espacio de memoria.")
-
-        while nodo_original or nodo_copia:
-            # Compruebo igualdad del contenido de ambas listas
-            self.assertEqual(nodo_original.dato, nodo_copia.dato,
-                             "Los datos de la lista copiada no son iguales a los de la lista original")
-            # Compruebo que los nodos de ambas listas sean instancias diferentes
-            self.assertIsNot(nodo_original, nodo_copia,
-                             "Los nodos de las lista copiada son compartidos con los de la lista original")
-            nodo_original = nodo_original.siguiente
-            nodo_copia = nodo_copia.siguiente
-    
-    def test_agregar_al_inicio(self):
-        """
-        pruebo que al agregar elementos al inicio de la lista
-        la misma tiene tamaño correcto y se llena correctamente
-        """
-        valorNuevo = 25
-
-        # Agregar al inicio de lista no vacia
-        lde2_copia = self.lde_2.copiar()
-        lde2_copia.agregar_al_inicio(valorNuevo)
-
-        self.recorrer_lista(lde2_copia)
-        self.assertEqual(len(self.lde_2), len(lde2_copia) - 1,
-                         "El tamaño de la lista luego de agregar debe incrementarse en uno")
-
-        nodo_copia = lde2_copia.cabeza
-        self.assertEqual(nodo_copia.dato, valorNuevo,
-                         "El primer nodo no contiene el valor que se solicito agregar")
-
-        nodo_copia = nodo_copia.siguiente
-        nodo_original = self.lde_2.cabeza
-        while nodo_original.siguiente is not None:
-            self.assertEqual(nodo_original.dato, nodo_copia.dato,
-                             "Se modificaron los datos de la lista luego de agregar el nuevo elemento")
-            nodo_original = nodo_original.siguiente
-            nodo_copia = nodo_copia.siguiente
-
-        # Anexar en lista vacia (self.lde_1)
-        lde1_copia = self.lde_1.copiar()
-        lde1_copia.agregar_al_inicio(valorNuevo)
-
-        self.recorrer_lista(lde1_copia)
-        self.assertEqual(len(lde1_copia), 1,
-                         "Al agregar un elemento al inicio de una lista vacia, su nuevo tamaño debe ser uno")
-
-        self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
-                         "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
-        self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
-                      "En una lista de un elemento, la cabeza es la misma que la cola")
-    def test_agregar_al_final(self):
-        """
-        pruebo que al anexar elementos al final de la lista
-        la misma tiene tamaño correcto y se llena correctamente
-        """
-
-        valorNuevo = 25
-
-        # Anexar en lista no vacia
-        lde2_copia = self.lde_2.copiar()
-        lde2_copia.agregar_al_final(valorNuevo)
-
-        self.recorrer_lista(lde2_copia)
-        self.assertEqual(len(self.lde_2), len(lde2_copia) - 1,
-                         "El tamaño de la lista luego de anexar debe incrementarse en uno")
-
-        nodo_original = self.lde_2.cabeza
-        nodo_copia = lde2_copia.cabeza
-        while nodo_original.siguiente is not None:
-            self.assertEqual(nodo_original.dato, nodo_copia.dato,
-                             "Se modificaron los datos de la lista luego de anexar el nuevo elemento")
-            nodo_original = nodo_original.siguiente
-            nodo_copia = nodo_copia.siguiente
-
-        nodo_copia = nodo_copia.siguiente
-        self.assertEqual(nodo_copia.dato, valorNuevo,
-                         "El ultimo nodo no contiene el valor que se solicito agregar")
-        self.assertIs(nodo_copia, lde2_copia.cola,
-                      "El ultimo nodo no coincide con la refencia a la cola de la lista")
-
-        # Anexar en lista vacia (self.lde_1)
-        lde1_copia = self.lde_1.copiar()
-        lde1_copia.agregar_al_final(valorNuevo)
-
-        self.recorrer_lista(lde1_copia)
-        self.assertEqual(len(lde1_copia), 1,
-                         "Al anexar un elemento en una lista vacia, su nuevo tamaño debe ser uno")
-
-        self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
-                         "El nodo anexado a la lista vacia no contiene el valor que se solicito agregar")
-        self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
-                      "En una lista de un elemento, la cabeza es la misma que la cola")
-    def test_insertar_interior(self):
-        """
-        pruebo insertar un ítem en una posición aleatoria
-        de la LDE y compruebo que el elemento es insertado
-        """
-        # print(f"\nPosición aleatoria donde se inserta: {self.posicion}")
-        posicion = random.randint(1, self.n_elementos - 1)
-
-        self.lde_2.insertar_interior(250, posicion)
-        self.n_elementos += 1
-        self.assertEqual(self.lde_2.tamanio, self.n_elementos)
-
-        contador = 0
-        nodo_actual = self.lde_2.cabeza
-        valor = None
-        while nodo_actual and contador != posicion:
-            contador += 1
-            nodo_actual = nodo_actual.siguiente
-            valor = nodo_actual.dato
-
-        self.assertEqual(valor, 250)
-
-if __name__ == "__main__":
-    unittest.main()
-    
- 
-    
-
-'''    
-'''
