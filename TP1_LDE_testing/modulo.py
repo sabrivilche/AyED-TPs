@@ -135,3 +135,58 @@ class ListaDobleEnlazada:
         return aux_eliminado #devuelte el elemento eliminado
     
 
+
+    def push(self, dato):
+        aux = Nodo(dato)
+        aux.siguiente = self.cabeza
+        if self.cabeza is not None:
+            self.cabeza.anterior = aux
+        self.cabeza = aux
+
+    #def printList(self, node):
+     #   while node is not None:
+      #      print(node.data, end=" ")
+       #     node = node.next
+
+    def particion(self, izquierda, derecha):
+        x = derecha.dato #right.data
+        i = izquierda.anterior#left.prev
+        for j in range(izquierda, derecha):
+            if j.dato <= x:
+                i = izquierda if not i else i.siguiente
+                i.dato, j.dato = j.dato, i.dato
+        i = izquierda if not i else i.siguiente
+        i.dato, right.dato = right.dato, i.dato
+        return i
+
+    def ordenamientoRapido(self, izquierda, derecha):
+        if derecha is not None and izquierda != derecha and izquierda != derecha.siguiente:
+            p = self.particion(izquierda, derecha)
+            self.ordenamientoRapido(izquierda, p.anterior)
+            self.ordenamientoRapido(p.siguiente,derecha)
+
+    def rango(primer_nodo,ultimo_nodo):
+        while primer_nodo != ultimo_nodo:
+            yield primer_nodo
+            primer_nodo = primer_nodo.siguiente
+        yield ultimo_nodo
+'''
+dll = DoublyLinkedList()
+dll.push(5)
+dll.push(20)
+dll.push(4)
+dll.push(3)
+dll.push(30)
+
+print("Lista doblemente enlazada antes del ordenamiento:")
+dll.printList(dll.head)
+
+last_node = dll.head
+while last_node.next is not None:
+    last_node = last_node.next
+
+dll.quickSort(dll.head, last_node)
+
+print("\nLista doblemente enlazada después del ordenamiento:")
+dll.printList(dll.head)
+'''
