@@ -3,7 +3,6 @@ import unittest
 from Nodo import Nodo
 
 class ListaDobleEnlazada:
-
     def __init__(self):
         self.cabeza = None
         self.cola = None
@@ -32,6 +31,7 @@ class ListaDobleEnlazada:
             yield aux.dato
             aux = aux.siguiente
             
+
     def copiar(self):
         copiar = ListaDobleEnlazada()
         aux = self.cabeza
@@ -51,7 +51,6 @@ class ListaDobleEnlazada:
             self.cabeza=aux_inicio
         
         self.tamanio+=1
-
     def agregar_al_final(self,item):
         if self.vacia():
             self.cabeza=self.cola=Nodo(item)
@@ -98,22 +97,20 @@ class ListaDobleEnlazada:
 
 
     def extraer(self, posicion=None):
-
         if self.vacia():
             raise Exception('La lista está vacía')
-        
-        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1): #le agregamos posición == -1
+
+        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):
             aux_actual = self.cola
             aux_eliminado = aux_actual.dato 
             #aux_actual.anterior = self.cola
             aux_actual.anterior.siguiente = None
             self.cola = aux_actual.anterior
-            self.tamanio -= 1 #reduce el tamaño de la lista
+            self.tamanio -= 1 
 
         elif (posicion is not None) and (posicion != self.tamanio -1):
-            if  (posicion < 0) or (posicion >= self.tamanio):
+            if  posicion < 0 or posicion >= self.tamanio:
                 raise Exception('Posición fuera de rango')
-            
             else: 
                 aux_actual = self.cabeza #primer nodo
 
@@ -123,7 +120,6 @@ class ListaDobleEnlazada:
                 aux_eliminado = aux_actual.dato #guardo el dato eliminado en "aux_eliminado"
                 anterior = aux_actual.anterior #nodos anterior y siguiente al nodo aux_actual
                 siguiente = aux_actual.siguiente
-
                 if anterior: #si anterior no es None
                     anterior.siguiente = siguiente #el enlace del nodo siguiente al nodo anterior se actualiza para "saltar" el nodo eliminado (aux_eliminar)
                 else: #si es None
@@ -133,14 +129,9 @@ class ListaDobleEnlazada:
                     siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
-                self.tamanio -= 1 #reduce el tamaño de la lista
+                self.tamanio -= 1
 
         
-        
+
+        #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
-    
-
-    
-    
-    
-    
