@@ -100,13 +100,13 @@ class ListaDobleEnlazada:
         if self.vacia():
             raise Exception('La lista está vacía')
 
-        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):
+        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):#agregamos posición == -1
             aux_actual = self.cola
             aux_eliminado = aux_actual.dato 
             #aux_actual.anterior = self.cola
             aux_actual.anterior.siguiente = None
             self.cola = aux_actual.anterior
-            self.tamanio -= 1 
+            self.tamanio -= 1 #reduce el tamaño de la lista
 
         elif (posicion is not None) and (posicion != self.tamanio -1):
             if  posicion < 0 or posicion >= self.tamanio:
@@ -129,9 +129,5 @@ class ListaDobleEnlazada:
                     siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
-                self.tamanio -= 1
-
-        
-
-        #reduce el tamaño de la lista
+                self.tamanio -= 1 #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
