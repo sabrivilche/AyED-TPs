@@ -148,6 +148,28 @@ class ListaDobleEnlazada:
         for item in copia_lista:
             aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
             aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
-    
 
+    def __add__(self,nueva_lista):
+        concat_lista = self.copiar()
+        if concat_lista.cola:
+            concat_lista.cola.siguiente = nueva_lista.cabeza
+            if nueva_lista.cabeza is None:
+                nueva_lista.cabeza.anterior = concat_lista.cola
+            concat_lista.cola = nueva_lista.cola
+        
+        concat_lista.tamanio += nueva_lista.tamanio
+        return concat_lista
+
+    def concatenar(self,nuevalista):
+        nuevalista_copia = nuevalista.copiar()
+
+        if self.cola is None: #si la lista está vacía se copia la cabeza y cola en la nuevalista_copia
+            self.cabeza = nuevalista_copia.cabeza
+            self.cola = nuevalista_copia.cola
+        else: 
+            self.cola.siguiente = nuevalista_copia.cabeza #apunto al siguiente nodo de la cola y le asigno la cabeza de la otra lista
+            nuevalista_copia.cabeza.anterior = self.cola #al nodo anterior a la cabeza de la nuevalista_copia se le asigna la cola
+            self.cola = nuevalista_copia.cola #nuevalista_copia va a apuntar al último nodo de la nueva lista
+        self.tamanio += nuevalista.tamanio
+    
     
