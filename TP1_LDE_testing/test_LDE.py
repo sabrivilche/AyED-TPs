@@ -347,8 +347,13 @@ class Test_LDE(unittest.TestCase):
             # Avanzo al siguiente nodo de lista invertida
             nodo_invertido = nodo_invertido.siguiente
             # Avanzo al siguiente nodo de lista original
+<<<<<<< HEAD
             nodo_original = nodo_original.anterior'''
 
+=======
+            nodo_original = nodo_original.anterior
+'''
+>>>>>>> 129cf5c338a69cab2faca53e008584f633c523ba
     def test_ordenar(self):
         """
         Ordeno dos listas con los mismos elementos: una lista de Python con

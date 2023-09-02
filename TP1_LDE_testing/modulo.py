@@ -100,7 +100,7 @@ class ListaDobleEnlazada:
         if self.vacia():
             raise Exception('La lista está vacía')
 
-        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):
+        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):#agregamos posición == -1
             aux_actual = self.cola
             aux_eliminado = aux_actual.dato 
             #aux_actual.anterior = self.cola
@@ -131,6 +131,7 @@ class ListaDobleEnlazada:
                     self.cola = anterior #la cola pasa a ser el nodo anterior
                 self.tamanio -= 1 #reduce el tamaño de la lista
 
+<<<<<<< HEAD
         return aux_eliminado #devuelte el elemento eliminado
     
     def ordenar(self):
@@ -146,3 +147,66 @@ class ListaDobleEnlazada:
 
     
    
+=======
+        elif (posicion == None) or (posicion == self.tamanio-1):
+            aux_actual = self.cola
+            aux_eliminado = aux_actual.dato 
+            #aux_actual.anterior = self.cola
+            aux_actual.anterior.siguiente = None
+            self.cola = aux_actual.anterior
+            self.tamanio -= 1 
+
+        #reduce el tamaño de la lista
+        return aux_eliminado #devuelte el elemento eliminado
+    
+
+    def particion(ultimo,primero):
+        pivote=ultimo.dato
+        i=ultimo.anterior
+        for j in range(ultimo,primero):
+            if j.dato<=pivote:
+                i=ultimo if not i else i.siguiente
+                i.dato,j.dato=j.dato,i.dato
+            i=ultimo if not i else i .siguiente
+            i.dato,primero.dato=primero.dato,i.dato
+            return i
+        
+    def ordenamientoAux(ultimo,primero):
+        if primero and ultimo!=primero and ultimo!=primero.siguiente:
+            aux=particion(ultimo,primero)#aparece que no está definido particion
+            ordenamientoAux(ultimo,aux.anterior)
+            ordenamientoAux(aux.siguiente,primero)
+
+    def ordenar(self):
+        
+        self.ordenamientoAux(primero=self.cabeza)#No se que está pasanda
+
+'''def push(head_ref, new_data):
+    new_node = Node(new_data)
+    new_node.prev = None
+    new_node.next = head_ref
+    if head_ref:
+        head_ref.prev = new_node
+    head_ref = new_node
+    return head_ref
+
+    La función push se utiliza para insertar un nuevo elemento al principio de la lista doblemente enlazada.
+    #def printList(self, node):
+     #   while node is not None:
+      #      print(node.data, end=" ")
+       #     node = node.next
+
+
+    def quickSort(self, left, right):
+        if right is not None and left != right and left != right.next:
+            p = self.partition(left, right)
+            self.quickSort(left, p.prev)
+            self.quickSort(p.next, right)
+
+def printList(node):
+    while node:
+        print(node.data, end=" ")
+        node = node.next
+Imprime los elementos de la lista
+'''
+>>>>>>> 129cf5c338a69cab2faca53e008584f633c523ba
