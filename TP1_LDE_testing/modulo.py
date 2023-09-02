@@ -135,29 +135,42 @@ class ListaDobleEnlazada:
         return aux_eliminado #devuelte el elemento eliminado
     
 
-'''
-    def push(self, item):
-        aux = Nodo(item)
-        aux.siguiente = self.cabeza
-        if self.cabeza is not None:
-            self.cabeza.anterior = aux
-        self.cabeza = aux
+    def particion(ultimo,primero):
+        pivote=ultimo.dato
+        i=ultimo.anterior
+        for j in range(ultimo,primero):
+            if j.dato<=pivote:
+                i=ultimo if not i else i.siguiente
+                i.dato,j.dato=j.dato,i.dato
+            i=ultimo if not i else i .siguiente
+            i.dato,primero.dato=primero.dato,i.dato
+            return i
+        
+    def ordenamientoAux(ultimo,primero):
+        if primero and ultimo!=primero and ultimo!=primero.siguiente:
+            aux=particion(ultimo,primero)
+            ordenamientoAux(ultimo,aux.anterior)
+            ordenamientoAux(aux.siguiente,primero)
 
+    def ordenar(self):
+        
+        self.ordenamientoAux(ultimo=None,primero=0)#No se como llamar la funcion :(
+
+'''def push(head_ref, new_data):
+    new_node = Node(new_data)
+    new_node.prev = None
+    new_node.next = head_ref
+    if head_ref:
+        head_ref.prev = new_node
+    head_ref = new_node
+    return head_ref
+
+    La función push se utiliza para insertar un nuevo elemento al principio de la lista doblemente enlazada.
     #def printList(self, node):
      #   while node is not None:
       #      print(node.data, end=" ")
        #     node = node.next
 
-    def partition(self, left, right):
-        x = right.data
-        i = left.prev
-        for j in range(left, right):
-            if j.data <= x:
-                i = left if not i else i.next
-                i.data, j.data = j.data, i.data
-        i = left if not i else i.next
-        i.data, right.data = right.data, i.data
-        return i
 
     def quickSort(self, left, right):
         if right is not None and left != right and left != right.next:
@@ -165,4 +178,9 @@ class ListaDobleEnlazada:
             self.quickSort(left, p.prev)
             self.quickSort(p.next, right)
 
+def printList(node):
+    while node:
+        print(node.data, end=" ")
+        node = node.next
+Imprime los elementos de la lista
 '''
