@@ -319,41 +319,36 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
 
-    '''def test_invertir(self):
+    # def test_invertir(self):
 
-        """
-        Creo una LDE con elementos aleatorios, realizo una copia de la misma,
-        e invierto la original.
-        Recorro las listas, una desde el inicio y la otra desde el final y
-        verifico que el contenido de los nodos sea el mismo.
+    #     """
+    #     Creo una LDE con elementos aleatorios, realizo una copia de la misma,
+    #     e invierto la original.
+    #     Recorro las listas, una desde el inicio y la otra desde el final y
+    #     verifico que el contenido de los nodos sea el mismo.
 
-        """
+    #     """
 
-        for _ in range(0, self.n_elementos):
-            item = random.randint(-self.n_elementos, self.n_elementos)
-            self.lde_1.agregar_al_inicio(item)
+    #     for _ in range(0, self.n_elementos):
+    #         item = random.randint(-self.n_elementos, self.n_elementos)
+    #         self.lde_1.agregar_al_inicio(item)
 
-        lista_copia = self.lde_1.copiar()
-        self.lde_1.invertir()
+    #     lista_copia = self.lde_1.copiar()
+    #     self.lde_1.invertir()
 
-        # Verifico que sus elementos esten correctamente enlazados
-        self.recorrer_lista(self.lde_1)
+    #     # Verifico que sus elementos esten correctamente enlazados
+    #     self.recorrer_lista(self.lde_1)
 
-        nodo_invertido = lista_copia.cabeza
-        nodo_original = self.lde_1.cola
+    #     nodo_invertido = lista_copia.cabeza
+    #     nodo_original = self.lde_1.cola
 
-        for _ in range(self.n_elementos):
-            self.assertEqual(nodo_invertido.dato, nodo_original.dato)
-            # Avanzo al siguiente nodo de lista invertida
-            nodo_invertido = nodo_invertido.siguiente
-            # Avanzo al siguiente nodo de lista original
-<<<<<<< HEAD
-            nodo_original = nodo_original.anterior'''
+    #     for _ in range(self.n_elementos):
+    #         self.assertEqual(nodo_invertido.dato, nodo_original.dato)
+    #         # Avanzo al siguiente nodo de lista invertida
+    #         nodo_invertido = nodo_invertido.siguiente
+    #         # Avanzo al siguiente nodo de lista original
+    #         nodo_original = nodo_original.anterior
 
-=======
-            nodo_original = nodo_original.anterior
-'''
->>>>>>> 129cf5c338a69cab2faca53e008584f633c523ba
     def test_ordenar(self):
         """
         Ordeno dos listas con los mismos elementos: una lista de Python con
@@ -438,39 +433,39 @@ class Test_LDE(unittest.TestCase):
     #         nodo_original = nodo_original.siguiente
     #         nodo_concat = nodo_concat.siguiente
 
-    '''def test_operador_add(self):
-        """
-        Verifico que funcione la concatenacion de listas mediante
-        el uso del operador +
-        Este operador devuelve una LDE que reuslta de la concatenación de las
-        dos LDE que recibe como operandos. Internamente no modifica ninguno
-        de sus dos operandos.
-        """
-        # lista_concatenada1 = self.lista_aux_3 + self.lista_aux_2
-        lista_concatenada1 = self.lde_3 + self.lde_2
+    # def test_operador_add(self):
+    #     """
+    #     Verifico que funcione la concatenacion de listas mediante
+    #     el uso del operador +
+    #     Este operador devuelve una LDE que reuslta de la concatenación de las
+    #     dos LDE que recibe como operandos. Internamente no modifica ninguno
+    #     de sus dos operandos.
+    #     """
+    #     # lista_concatenada1 = self.lista_aux_3 + self.lista_aux_2
+    #     lista_concatenada1 = self.lde_3 + self.lde_2
 
-        # Compruebo que las listas originales esten intactas
-        self.recorrer_lista(self.lde_3)
-        self.recorrer_lista(self.lde_2)
+    #     # Compruebo que las listas originales esten intactas
+    #     self.recorrer_lista(self.lde_3)
+    #     self.recorrer_lista(self.lde_2)
 
-        # Compruebo que la lista concatenada este bien enlazada
-        self.recorrer_lista(lista_concatenada1)
+    #     # Compruebo que la lista concatenada este bien enlazada
+    #     self.recorrer_lista(lista_concatenada1)
 
-        # Verifico que los elementos resulten efectivamente de la concatenacion
-        # en orden de la lista lde_3 con lde_2
-        nodo_original = self.lde_3.cabeza
-        nodo_concat = lista_concatenada1.cabeza
-        while nodo_original is not None:
-            self.assertEqual(nodo_original.dato, nodo_concat.dato,
-                             "No coinciden los nodos de la lista 1 con la lista concatenada")
-            nodo_original = nodo_original.siguiente
-            nodo_concat = nodo_concat.siguiente
-        nodo_original = self.lde_2.cabeza
-        while nodo_original is not None:
-            self.assertEqual(nodo_original.dato, nodo_concat.dato,
-                             "No coinciden los nodos de la lista 2 con la lista concatenada")
-            nodo_original = nodo_original.siguiente
-            nodo_concat = nodo_concat.siguiente'''
+    #     # Verifico que los elementos resulten efectivamente de la concatenacion
+    #     # en orden de la lista lde_3 con lde_2
+    #     nodo_original = self.lde_3.cabeza
+    #     nodo_concat = lista_concatenada1.cabeza
+    #     while nodo_original is not None:
+    #         self.assertEqual(nodo_original.dato, nodo_concat.dato,
+    #                          "No coinciden los nodos de la lista 1 con la lista concatenada")
+    #         nodo_original = nodo_original.siguiente
+    #         nodo_concat = nodo_concat.siguiente
+    #     nodo_original = self.lde_2.cabeza
+    #     while nodo_original is not None:
+    #         self.assertEqual(nodo_original.dato, nodo_concat.dato,
+    #                          "No coinciden los nodos de la lista 2 con la lista concatenada")
+    #         nodo_original = nodo_original.siguiente
+    #         nodo_concat = nodo_concat.siguiente
 
 
 if __name__ == "__main__":

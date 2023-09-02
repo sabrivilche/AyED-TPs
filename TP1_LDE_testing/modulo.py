@@ -130,7 +130,7 @@ class ListaDobleEnlazada:
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
                 self.tamanio -= 1 #reduce el tamaño de la lista
-            elif (posicion == None) or (posicion == self.tamanio-1):
+        elif (posicion == None) or (posicion == self.tamanio-1):
                 aux_actual = self.cola
                 aux_eliminado = aux_actual.dato 
                 #aux_actual.anterior = self.cola
