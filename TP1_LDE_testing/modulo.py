@@ -139,15 +139,33 @@ class ListaDobleEnlazada:
                 self.tamanio -= 1 #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
     
-    def ordenar(self):
-        copia_lista = list(self) #hago una copia de la lista, cambio la lista enlazada a una de `python` para poder ordenarla más fácil usando las funciones de python
+    # def ordenar(self):
+    #     copia_lista = list(self) #hago una copia de la lista, cambio la lista enlazada a una de `python` para poder ordenarla más fácil usando las funciones de python
                 
-        copia_lista = sorted(copia_lista) #ordeno la lista con sorted para mejorar el tiempo (orden n)
+    #     copia_lista = sorted(copia_lista) #ordeno la lista con sorted para mejorar el tiempo (orden n)
         
-        aux_ordenar = self.cabeza #me posiciono en la cabeza para empezar a recorrer la lista e ir actualizandola de forma ordenada
-        for item in copia_lista:
-            aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
-            aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
+    #     aux_ordenar = self.cabeza #me posiciono en la cabeza para empezar a recorrer la lista e ir actualizandola de forma ordenada
+    #     for item in copia_lista:
+    #         aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
+    #         aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
+
+    def ordenar(self):
+        if self.vacia() or self.tamanio <= 1:
+            return
+
+        nodo_actual = self.cabeza.siguiente #empiezo a recorrer la lista a partir del segundo elemento
+
+        while nodo_actual is not None:
+            dato_actual = nodo_actual.dato #elemento del nodo actual lo asignamos a dato_actual
+            nodo_anterior = nodo_actual.anterior #nodo anterior al actual y lo asignamos a nodo_actual
+
+            while nodo_anterior is not None and nodo_anterior.dato > dato_actual: #nodo_anterior sea mayor que dato_actual, voy corriendo los datos mayores al principio de la lista
+                nodo_actual.dato = nodo_anterior.dato #el elemento de nodo_anterior pasa a estar en nodo_actual, para desplazar el actual hacia "atrás"
+                nodo_actual = nodo_anterior #actualizo el nodo
+                nodo_anterior = nodo_actual.anterior #nodo_anterior pasa a ser el anterior al nodo_actual
+
+            nodo_actual.dato = dato_actual #una vez que se ordenan los elementos asignamos el elemento guardado en dato_actual a nodo_actual
+            nodo_actual = nodo_actual.siguiente #pasamos al siguiente nodo para seguir ordenando
 
 
     def __add__(self,nueva_lista):
@@ -183,7 +201,4 @@ class ListaDobleEnlazada:
             nodo_actual.siguiente, nodo_actual.anterior = nodo_actual.anterior,nodo_actual.siguiente #intercambio los nodos
             nodo_actual = nodo_actual.anterior #para avanzar en la lista le asigno al nodo_actual el nodo anterior, para poder moverme hacia atrás
 
-        self.cabeza,self.cola = self.cola, self.cabeza #para asegurarme de que se invierta la lista
-
-
-    
+        self.cabeza,self.cola = self.cola, self.cabeza #para asegurarme de que se invierta la lista    
