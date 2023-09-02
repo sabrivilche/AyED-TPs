@@ -149,6 +149,7 @@ class ListaDobleEnlazada:
             aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
             aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
 
+
     def __add__(self,nueva_lista):
         concat_lista = self.copiar()
         if concat_lista.cola:
@@ -171,5 +172,5 @@ class ListaDobleEnlazada:
             nuevalista_copia.cabeza.anterior = self.cola #al nodo anterior a la cabeza de la nuevalista_copia se le asigna la cola
             self.cola = nuevalista_copia.cola #nuevalista_copia va a apuntar al último nodo de la nueva lista
         self.tamanio += nuevalista.tamanio
-    
+
     
