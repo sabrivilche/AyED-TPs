@@ -348,7 +348,7 @@ class Test_LDE(unittest.TestCase):
             nodo_invertido = nodo_invertido.siguiente
             # Avanzo al siguiente nodo de lista original
             nodo_original = nodo_original.anterior
-
+'''
     def test_ordenar(self):
         """
         Ordeno dos listas con los mismos elementos: una lista de Python con
@@ -364,7 +364,7 @@ class Test_LDE(unittest.TestCase):
 
         for i, dato in enumerate(self.lde_3):
             self.assertEqual(self.lista_aux_3[i], dato,
-                             "Los datos en la lista no se ordenaron correctamente")'''
+                             "Los datos en la lista no se ordenaron correctamente")
 
     def recorrer_lista(self, lista):
         """
