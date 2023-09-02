@@ -106,7 +106,7 @@ class ListaDobleEnlazada:
             #aux_actual.anterior = self.cola
             aux_actual.anterior.siguiente = None
             self.cola = aux_actual.anterior
-            self.tamanio -= 1 
+            self.tamanio -= 1 #reduce el tamaño de la lista
 
         elif (posicion is not None) and (posicion != self.tamanio -1):
             if  posicion < 0 or posicion >= self.tamanio:
@@ -129,9 +129,20 @@ class ListaDobleEnlazada:
                     siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
-                self.tamanio -= 1
+                self.tamanio -= 1 #reduce el tamaño de la lista
 
-        
-
-        #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
+    
+    def ordenar(self):
+        copia_lista = list(self) #hago una copia de la lista, cambio la lista enlazada a una de `python` para poder ordenarla más fácil usando las funciones de python
+                
+        copia_lista = sorted(copia_lista) #ordeno la lista con sorted para mejorar el tiempo (orden n)
+        
+        aux_ordenar = self.cabeza #me posiciono en la cabeza para empezar a recorrer la lista e ir actualizandola de forma ordenada
+        for item in copia_lista:
+            aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
+            aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
+    
+
+    
+   
