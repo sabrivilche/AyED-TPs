@@ -319,35 +319,35 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
 
-    # def test_invertir(self):
+    def test_invertir(self):
 
-    #     """
-    #     Creo una LDE con elementos aleatorios, realizo una copia de la misma,
-    #     e invierto la original.
-    #     Recorro las listas, una desde el inicio y la otra desde el final y
-    #     verifico que el contenido de los nodos sea el mismo.
+         """
+         Creo una LDE con elementos aleatorios, realizo una copia de la misma,
+         e invierto la original.
+         Recorro las listas, una desde el inicio y la otra desde el final y
+         verifico que el contenido de los nodos sea el mismo.
 
-    #     """
+         """
 
-    #     for _ in range(0, self.n_elementos):
-    #         item = random.randint(-self.n_elementos, self.n_elementos)
-    #         self.lde_1.agregar_al_inicio(item)
+         for _ in range(0, self.n_elementos):
+             item = random.randint(-self.n_elementos, self.n_elementos)
+             self.lde_1.agregar_al_inicio(item)
 
-    #     lista_copia = self.lde_1.copiar()
-    #     self.lde_1.invertir()
+         lista_copia = self.lde_1.copiar()
+         self.lde_1.invertir()
 
-    #     # Verifico que sus elementos esten correctamente enlazados
-    #     self.recorrer_lista(self.lde_1)
+         # Verifico que sus elementos esten correctamente enlazados
+         self.recorrer_lista(self.lde_1)
 
-    #     nodo_invertido = lista_copia.cabeza
-    #     nodo_original = self.lde_1.cola
+         nodo_invertido = lista_copia.cabeza
+         nodo_original = self.lde_1.cola
 
-    #     for _ in range(self.n_elementos):
-    #         self.assertEqual(nodo_invertido.dato, nodo_original.dato)
-    #         # Avanzo al siguiente nodo de lista invertida
-    #         nodo_invertido = nodo_invertido.siguiente
-    #         # Avanzo al siguiente nodo de lista original
-    #         nodo_original = nodo_original.anterior
+         for _ in range(self.n_elementos):
+             self.assertEqual(nodo_invertido.dato, nodo_original.dato)
+             # Avanzo al siguiente nodo de lista invertida
+             nodo_invertido = nodo_invertido.siguiente
+             # Avanzo al siguiente nodo de lista original
+             nodo_original = nodo_original.anterior
 
     def test_ordenar(self):
         """

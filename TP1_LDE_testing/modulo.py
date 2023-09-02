@@ -150,4 +150,14 @@ class ListaDobleEnlazada:
             aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
     
 
+
+    def invertir(self):
+        nodo_actual=self.cabeza
+        while nodo_actual is not None:
+            nodo_actual.siguiente=nodo_actual.anterior
+            nodo_actual.anterior=nodo_actual.siguiente
+            if nodo_actual.anterior is None:
+                self.cabeza=nodo_actual
+            nodo_actual=nodo_actual.anterior
+
     
