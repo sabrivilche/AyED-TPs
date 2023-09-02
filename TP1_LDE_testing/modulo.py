@@ -130,8 +130,13 @@ class ListaDobleEnlazada:
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
                 self.tamanio -= 1 #reduce el tamaño de la lista
-
-<<<<<<< HEAD
+            elif (posicion == None) or (posicion == self.tamanio-1):
+                aux_actual = self.cola
+                aux_eliminado = aux_actual.dato 
+                #aux_actual.anterior = self.cola
+                aux_actual.anterior.siguiente = None
+                self.cola = aux_actual.anterior
+                self.tamanio -= 1 #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
     
     def ordenar(self):
@@ -148,16 +153,7 @@ class ListaDobleEnlazada:
     
    
 =======
-        elif (posicion == None) or (posicion == self.tamanio-1):
-            aux_actual = self.cola
-            aux_eliminado = aux_actual.dato 
-            #aux_actual.anterior = self.cola
-            aux_actual.anterior.siguiente = None
-            self.cola = aux_actual.anterior
-            self.tamanio -= 1 
-
-        #reduce el tamaño de la lista
-        return aux_eliminado #devuelte el elemento eliminado
+        
     
 
     def particion(ultimo,primero):
@@ -209,4 +205,4 @@ def printList(node):
         node = node.next
 Imprime los elementos de la lista
 '''
->>>>>>> 129cf5c338a69cab2faca53e008584f633c523ba
+
