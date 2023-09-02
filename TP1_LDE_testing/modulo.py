@@ -173,4 +173,17 @@ class ListaDobleEnlazada:
             self.cola = nuevalista_copia.cola #nuevalista_copia va a apuntar al último nodo de la nueva lista
         self.tamanio += nuevalista.tamanio
 
+    def invertir(self):
+        if self.vacia() or self.cabeza == self.cola: #si la lista está vacia o tiene un solo elemento
+            return
+        
+        nodo_actual = self.cabeza #me posiciono en la cabeza para ir recorriendo la lista original
+
+        while nodo_actual is not None:
+            nodo_actual.siguiente, nodo_actual.anterior = nodo_actual.anterior,nodo_actual.siguiente #intercambio los nodos
+            nodo_actual = nodo_actual.anterior #para avanzar en la lista le asigno al nodo_actual el nodo anterior, para poder moverme hacia atrás
+
+        self.cabeza,self.cola = self.cola, self.cabeza #para asegurarme de que se invierta la lista
+
+
     
