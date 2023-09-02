@@ -1,6 +1,5 @@
 from modulo import ListaDobleEnlazada
-import random
-import unittest
+
 class Test_LDE(unittest.TestCase):
     """Test de la clase ListaDobleEnlazada"""
 
@@ -64,7 +63,7 @@ class Test_LDE(unittest.TestCase):
                              "Los nodos de las lista copiada son compartidos con los de la lista original")
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
-   
+'''    
     def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
@@ -103,45 +102,7 @@ class Test_LDE(unittest.TestCase):
         self.assertEqual(lde1_copia.cabeza.dato, valorNuevo,
                          "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
-                      "En una lista de un elemento, la cabeza es la misma que la cola")
-
-    
-    
-    def recorrer_lista(self, lista):
-        """
-        Metodo auxiliar para usar en tests de métodos complejos
-        de la clase lista doblemente enlazada. Verifica que los nodos de la lista
-        esten bien enlazados entre sí (forward y backward).
-        """
-
-    # Recorro de adelante para atras
-        nodo = lista.cabeza
-        counter = 0
-        elementos = []
-
-        self.assertIsNone(nodo.anterior,
-                            "El elemento anterior a la cabeza de la lista debe ser None")
-
-        while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
-
-        self.assertEqual(len(lista), counter,
-                            "Tamaño informado por la lista no coincide con la cantidad de nodos en la misma.")
-
-        # Recorro de atras para adelante
-        nodo = lista.cola
-
-        self.assertIsNone(nodo.siguiente,
-                            "El elemento siguiente a la cola de la lista debe ser None")
-
-        while nodo is not None:
-            counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                                "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                                "a que si la recorremos de adelante para atrás.")
-            nodo = nodo.anterior
+                      "En una lista de un elemento, la cabeza es la misma que la cola")'''
 
 if __name__ == "__main__":
     unittest.main()

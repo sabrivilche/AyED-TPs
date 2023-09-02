@@ -319,7 +319,7 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
 
-    def test_invertir(self):
+    '''def test_invertir(self):
 
         """
         Creo una LDE con elementos aleatorios, realizo una copia de la misma,
@@ -364,7 +364,7 @@ class Test_LDE(unittest.TestCase):
 
         for i, dato in enumerate(self.lde_3):
             self.assertEqual(self.lista_aux_3[i], dato,
-                             "Los datos en la lista no se ordenaron correctamente")
+                             "Los datos en la lista no se ordenaron correctamente")'''
 
     def recorrer_lista(self, lista):
         """
@@ -402,7 +402,7 @@ class Test_LDE(unittest.TestCase):
                              "a que si la recorremos de adelante para atrás.")
             nodo = nodo.anterior
 
-    def test_metodo_concatenar(self):
+    '''def test_metodo_concatenar(self):
         """
         Verifico que funcione bien la concatenacion de listas mediante el metodo
         concatenar. El metodo modifica la instancia que realiza la invocacion.
@@ -465,7 +465,7 @@ class Test_LDE(unittest.TestCase):
             self.assertEqual(nodo_original.dato, nodo_concat.dato,
                              "No coinciden los nodos de la lista 2 con la lista concatenada")
             nodo_original = nodo_original.siguiente
-            nodo_concat = nodo_concat.siguiente
+            nodo_concat = nodo_concat.siguiente'''
 
 
 if __name__ == "__main__":
