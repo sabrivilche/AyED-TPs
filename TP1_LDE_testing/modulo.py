@@ -156,13 +156,13 @@ class ListaDobleEnlazada:
         
     def ordenamientoAux(ultimo,primero):
         if primero and ultimo!=primero and ultimo!=primero.siguiente:
-            aux=particion(ultimo,primero)
+            aux=particion(ultimo,primero)#aparece que no está definido particion
             ordenamientoAux(ultimo,aux.anterior)
             ordenamientoAux(aux.siguiente,primero)
 
     def ordenar(self):
         
-        self.ordenamientoAux(ultimo=None,primero=0)#No se como llamar la funcion :(
+        self.ordenamientoAux(primero=self.cabeza)#No se que está pasanda
 
 '''def push(head_ref, new_data):
     new_node = Node(new_data)
