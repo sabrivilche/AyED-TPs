@@ -139,7 +139,7 @@ class ListaDobleEnlazada:
                 self.tamanio -= 1 #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
     
-    # def ordenar(self):
+    # def ordenar(self): 
     #     copia_lista = list(self) #hago una copia de la lista, cambio la lista enlazada a una de `python` para poder ordenarla más fácil usando las funciones de python
                 
     #     copia_lista = sorted(copia_lista) #ordeno la lista con sorted para mejorar el tiempo (orden n)
@@ -149,23 +149,46 @@ class ListaDobleEnlazada:
     #         aux_ordenar.dato = item #posicionado en aux le asigna el elemento ordenado a dato 
     #         aux_ordenar = aux_ordenar.siguiente #me muevo al siguiente nodo
 
+    # def ordenar(self): #ordenamiento por inserción
+    #     if self.vacia() or self.tamanio <= 1:
+    #         return
+
+    #     nodo_actual = self.cabeza.siguiente #empiezo a recorrer la lista a partir del segundo elemento
+
+    #     while nodo_actual is not None:
+    #         dato_actual = nodo_actual.dato #elemento del nodo actual lo asignamos a dato_actual
+    #         nodo_anterior = nodo_actual.anterior #nodo anterior al actual y lo asignamos a nodo_actual
+
+    #         while nodo_anterior is not None and nodo_anterior.dato > dato_actual: #nodo_anterior sea mayor que dato_actual, voy corriendo los datos mayores al principio de la lista
+    #             nodo_actual.dato = nodo_anterior.dato #el elemento de nodo_anterior pasa a estar en nodo_actual, para desplazar el actual hacia "atrás"
+    #             nodo_actual = nodo_anterior #actualizo el nodo
+    #             nodo_anterior = nodo_actual.anterior #nodo_anterior pasa a ser el anterior al nodo_actual
+
+    #         nodo_actual.dato = dato_actual #una vez que se ordenan los elementos asignamos el elemento guardado en dato_actual a nodo_actual
+    #         nodo_actual = nodo_actual.siguiente #pasamos al siguiente nodo para seguir ordenando
+
     def ordenar(self):
-        if self.vacia() or self.tamanio <= 1:
-            return
+        self._quick_sort(self.cabeza, self.cola) #llamamos al método quicksort de forma recursiva
 
-        nodo_actual = self.cabeza.siguiente #empiezo a recorrer la lista a partir del segundo elemento
+    def _quick_sort(self, inicio, fin):#inicio y fin para definir el rango de la lista
+        if inicio is not None and inicio != fin and inicio != fin.siguiente: #verifico si inicio no es igual a fin y si inicio no es igual al siguiente de fin
+            pivote = self._particionar(inicio, fin) #llamo al método particionar para dividir el rango en 2, menores a la izq y mayores a la derecha del pivote
+            self._quick_sort(inicio, pivote.anterior) #se ordena la mitad desde inicio hasta el anterior al pivote
+            self._quick_sort(pivote.siguiente, fin) #se ordena la mitad desde el siguiente del pivote hasta fin
 
-        while nodo_actual is not None:
-            dato_actual = nodo_actual.dato #elemento del nodo actual lo asignamos a dato_actual
-            nodo_anterior = nodo_actual.anterior #nodo anterior al actual y lo asignamos a nodo_actual
+    def _particionar(self, inicio, fin):
+        pivote = fin #nodo final del rango actual de la lista
+        nodo_rango = inicio #primer nodo del rango
 
-            while nodo_anterior is not None and nodo_anterior.dato > dato_actual: #nodo_anterior sea mayor que dato_actual, voy corriendo los datos mayores al principio de la lista
-                nodo_actual.dato = nodo_anterior.dato #el elemento de nodo_anterior pasa a estar en nodo_actual, para desplazar el actual hacia "atrás"
-                nodo_actual = nodo_anterior #actualizo el nodo
-                nodo_anterior = nodo_actual.anterior #nodo_anterior pasa a ser el anterior al nodo_actual
+        while nodo_rango != pivote: #mientas inicio y fin no sean iguales
+            if nodo_rango.dato <= pivote.dato: #comparo el elemento de nodo_rango para ver si es menor o igual al elemento en pivote
+                nodo_rango.dato, inicio.dato = inicio.dato, nodo_rango.dato #si se cumple la condición anterior se intercambian los elementos de los nodos
+                inicio = inicio.siguiente #pasamos al siguiente nodo
+            nodo_rango = nodo_rango.siguiente #el puntero se mueve al siguiente nodo de la lista
 
-            nodo_actual.dato = dato_actual #una vez que se ordenan los elementos asignamos el elemento guardado en dato_actual a nodo_actual
-            nodo_actual = nodo_actual.siguiente #pasamos al siguiente nodo para seguir ordenando
+        inicio.dato, pivote.dato = pivote.dato, inicio.dato #una vez que se recorrió toda la lista intercambiamos los elementos
+        #el elemento dentro del nodo inicio pasa a ser el primer valor mayor al pivote
+        return inicio
 
 
     def __add__(self,nueva_lista):
