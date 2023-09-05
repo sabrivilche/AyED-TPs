@@ -11,7 +11,7 @@ class Cola:
         self.tamanio += 1
 
     def sacar_carta(self):
-        self.lanzar_carta = self.datos.pop()
+        self.lanzar_carta = self.datos.pop(0)
         return self.lanzar_carta
     
     def tamanio(self):
