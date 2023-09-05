@@ -15,12 +15,7 @@ class Cola:
         self.carta.extend(dato)
 
     def sacar_carta(self):
-<<<<<<< HEAD
-        self.lanzar_carta = self.carta.pop(0)
-=======
-        self.lanzar_carta = self.datos.pop(0)
->>>>>>> 11127f105247665b71f0a7f30d798859f23012a8
-        return self.lanzar_carta
+        return self.carta.pop(0)
     
     def tamanio(self):
         return len(self.carta)
