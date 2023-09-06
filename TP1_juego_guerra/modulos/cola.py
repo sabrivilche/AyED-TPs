@@ -1,5 +1,5 @@
 import random
-class Cola:
+class Carta:
     def __init__(self):
         self.carta = []
         self.tamanio = 0
