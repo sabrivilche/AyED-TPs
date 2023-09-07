@@ -1,6 +1,107 @@
 from TP1_LDE_testing.modulo import ListaDobleEnlazada
 import random
+
+
+class Carta:
+    def _init_(self):#le saqué valor como parámetro
+        #self.valor = valor
+        self.carta = carta
+        self.valor = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+        self.palo = ['♠', '♥', '♦', '♣']
+        self.boca_arriba = None
+        self.boca_abajo = None
+
 class Mazo:
+    def _init_(self, cartas=[]):
+        self.cartas = ListaDobleEnlazada()
+        for carta in cartas:
+            self.cartas.agregar_al_inicio(carta)
+
+    def agregar_carta(self, carta):
+        self.cartas.agregar_al_inicio(carta)
+
+    def quitar_carta(self):
+        if not self.cartas.vacia():
+            return self.cartas.extraer(0)
+
+    def esta_vacio(self):
+        return self.cartas.vacia()
+
+class JuegoGuerra:
+    def _init_(self, semilla):
+        self.mazo_jugador1 = None
+        self.mazo_jugador2 = None
+        self.inicializar_mazos(semilla)
+        self.turno = 0
+
+    def inicializar_mazos(self, semilla):
+        mazo_completo = [Carta(valor) for valor in valores] * 4
+        random.seed(semilla)
+        random.shuffle(mazo_completo)
+        
+        mitad_cartas = len(mazo_completo) // 2
+        cartas_jugador1 = mazo_completo[:mitad_cartas]
+        cartas_jugador2 = mazo_completo[mitad_cartas:]
+        
+        self.mazo_jugador1 = Mazo(cartas_jugador1)
+        self.mazo_jugador2 = Mazo(cartas_jugador2)
+
+    def jugar_turno(self):
+        carta_jugador1 = self.mazo_jugador1.quitar_carta()
+        carta_jugador2 = self.mazo_jugador2.quitar_carta()
+        
+        if carta_jugador1.valor > carta_jugador2.valor:
+            self.mazo_jugador1.agregar_carta(carta_jugador1)
+            self.mazo_jugador1.agregar_carta(carta_jugador2)
+        elif carta_jugador1.valor < carta_jugador2.valor:
+            self.mazo_jugador2.agregar_carta(carta_jugador1)
+            self.mazo_jugador2.agregar_carta(carta_jugador2)
+        else:
+            # Guerra
+            cartas_guerra = [carta_jugador1, carta_jugador2]
+            self.iniciar_guerra(cartas_guerra)
+
+        self.turno += 1
+
+    def iniciar_guerra(self, cartas_guerra):
+        while True:
+            for _ in range(3):
+                carta_jugador1 = self.mazo_jugador1.quitar_carta()
+                carta_jugador2 = self.mazo_jugador2.quitar_carta()
+                if carta_jugador1 and carta_jugador2:
+                    cartas_guerra.extend([carta_jugador1, carta_jugador2])
+            
+            carta_jugador1 = self.mazo_jugador1.quitar_carta()
+            carta_jugador2 = self.mazo_jugador2.quitar_carta()
+            
+            if carta_jugador1 and carta_jugador2:
+                cartas_guerra.extend([carta_jugador1, carta_jugador2])
+                
+                if carta_jugador1.valor > carta_jugador2.valor:
+                    self.mazo_jugador1.cartas.concatenar(cartas_guerra)
+                else:
+                    self.mazo_jugador2.cartas.concatenar(cartas_guerra)
+                break
+            elif not carta_jugador1:
+                # Jugador 2 gana la partida
+                self.mazo_jugador2.cartas.concatenar(cartas_guerra)
+                break
+            elif not carta_jugador2:
+                # Jugador 1 gana la partida
+                self.mazo_jugador1.cartas.concatenar(cartas_guerra)
+                break
+
+    def jugar_partida(self):
+        while not self.mazo_jugador1.esta_vacio() and not self.mazo_jugador2.esta_vacio():
+            self.jugar_turno()
+
+        if self.mazo_jugador1.esta_vacio():
+            return 'jugador 2'
+        elif self.mazo_jugador2.esta_vacio():
+            return 'jugador 1'
+        else:
+            return 'empate'
+'''class Mazo:
     def __init__(self):
         self.carta = []
         self.cabeza = None
@@ -40,7 +141,7 @@ class Carta:
 
 class JuegoGuerra:
     pass
-
+'''
 
 
 

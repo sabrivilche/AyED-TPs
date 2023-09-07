@@ -1,6 +1,6 @@
 import random
 import unittest
-from Nodo import Nodo
+from TP1_LDE_testing.Nodo import Nodo
 
 class ListaDobleEnlazada:
     def __init__(self):
