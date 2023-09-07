@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from TP1_LDE_testing.modulo import ListaDobleEnlazada
 import random
 class Mazo:
@@ -126,4 +127,6 @@ class JuegoGuerra:
 #                 self.ganador='Jugador 1'
 
 #         return self.turno, self.ganador
+=======
+>>>>>>> 946a70bece8359e67cf585a2a0adc3cb2cf9cb52
 
