@@ -5,8 +5,8 @@ Created on Sun Aug 21 11:23:53 2022
 @author: je_su
 """
 
-
-from juego_guerra import JuegoGuerra
+# from modulos.cola import Carta
+from TP1_juego_guerra.modulos.juego_guerra import JuegoGuerra,Mazo,Carta
 import unittest
 
 
