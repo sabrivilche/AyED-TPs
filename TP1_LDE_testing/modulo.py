@@ -33,22 +33,22 @@ class ListaDobleEnlazada:
             
 
     def copiar(self):
-        copiar = ListaDobleEnlazada()
-        aux = self.cabeza
+        copiar = ListaDobleEnlazada() #creamos una nueva instancia llamada "copiar" donde almacenamos la copia de la lista original
+        aux = self.cabeza 
         while aux:
-            copiar.agregar(aux.dato)
-            aux = aux.siguiente
-        return copiar
+            copiar.agregar(aux.dato) #en cada iteración del bucle while se agrega el dato que se encuentra en aux a la lista copiar
+            aux = aux.siguiente #una vez que se copia el dato anterior pasa al siguiente nodo
+        return copiar #retorna la copia de la lista
     
     def agregar_al_inicio(self,item):
         if self.vacia():
-            self.cabeza=self.cola=Nodo(item)
+            self.cabeza=self.cola=Nodo(item) #si la lista está vacía el nodo que se agrega va a ser el primer elemento y el último
         
-        else:
-            aux_inicio=Nodo(item)
-            aux_inicio.siguiente=self.cabeza
-            self.cabeza.anterior=aux_inicio
-            self.cabeza=aux_inicio
+        else: #si la lista no está vacía
+            aux_inicio=Nodo(item) #aux_inicio contiene el nuevo dato que ingresará a la lista
+            aux_inicio.siguiente=self.cabeza #se vuelven a establecer los enlaces del nodo que es la cabeza actual de la lista
+            self.cabeza.anterior=aux_inicio 
+            self.cabeza=aux_inicio #aux_inicio pasa a ser el primer nodo de la lista
         
         self.tamanio+=1
     def agregar_al_final(self,item):
@@ -56,9 +56,9 @@ class ListaDobleEnlazada:
             self.cabeza=self.cola=Nodo(item)
         
         else:
-            aux_final=self.cola
-            self.cola=aux_final.siguiente=Nodo(item)
-            self.cola.anterior=aux_final
+            aux_final=self.cola #referencia al nodo que es la cola actualmente
+            self.cola=aux_final.siguiente=Nodo(item) #Nodo(item) tiene el nuevo dato, siguiente del aux_final apunta al nuevo nodo conectando el nodo actual al nuevo nodo, se actualiza self.cola para que apunte al nuevo nodo
+            self.cola.anterior=aux_final 
         
         self.tamanio+=1
 
@@ -100,10 +100,9 @@ class ListaDobleEnlazada:
         if self.vacia():
             raise Exception('La lista está vacía')
 
-        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):#agregamos posición == -1
+        elif (posicion == None) or (posicion == self.tamanio-1) or (posicion == -1):
             aux_actual = self.cola
             aux_eliminado = aux_actual.dato 
-            #aux_actual.anterior = self.cola
             aux_actual.anterior.siguiente = None
             self.cola = aux_actual.anterior
             self.tamanio -= 1 #reduce el tamaño de la lista
@@ -129,13 +128,6 @@ class ListaDobleEnlazada:
                     siguiente.anterior = anterior #el enlace del nodo anterior al nodo siguiente se actualiza para "saltar" el nodo eliminado (aux_eliminar)
                 else: #si es None
                     self.cola = anterior #la cola pasa a ser el nodo anterior
-                self.tamanio -= 1 #reduce el tamaño de la lista
-        elif (posicion == None) or (posicion == self.tamanio-1):
-                aux_actual = self.cola
-                aux_eliminado = aux_actual.dato 
-                #aux_actual.anterior = self.cola
-                aux_actual.anterior.siguiente = None
-                self.cola = aux_actual.anterior
                 self.tamanio -= 1 #reduce el tamaño de la lista
         return aux_eliminado #devuelte el elemento eliminado
     
@@ -165,14 +157,14 @@ class ListaDobleEnlazada:
 
 
     def __add__(self,nueva_lista):
-        concat_lista = self.copiar()
-        if concat_lista.cola:
-            concat_lista.cola.siguiente = nueva_lista.cabeza
-            if nueva_lista.cabeza is None:
-                nueva_lista.cabeza.anterior = concat_lista.cola
-            concat_lista.cola = nueva_lista.cola
+        concat_lista = self.copiar() #se crea una copia para evitar que se modifique la lista original
+        if concat_lista.cola: #si la lista no está vacía
+            concat_lista.cola.siguiente = nueva_lista.cabeza #el nodo que es la cola de concat_lista apuntará a la cabeza de nueva_lista
+            if nueva_lista.cabeza is None: #verifico que "nueva_lista" no esté vacía
+                nueva_lista.cabeza.anterior = concat_lista.cola #el nodo que actualmente es la cabeza de nueva_lista apuntará a la cola de concat_lista
+            concat_lista.cola = nueva_lista.cola #la cola de concat_lista apunte a la cola de nueva_lista, para asegurarme de que la lista concatenada esté correctamente enlazada
         
-        concat_lista.tamanio += nueva_lista.tamanio
+        concat_lista.tamanio += nueva_lista.tamanio #tamaño total de la lista concatenada
         return concat_lista
 
     def concatenar(self,nuevalista):
