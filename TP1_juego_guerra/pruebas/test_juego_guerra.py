@@ -5,7 +5,7 @@ Created on Sun Aug 21 11:23:53 2022
 @author: je_su
 """
 
-# from modulos.cola import Carta
+
 from TP1_juego_guerra.modulos.juego_guerra import JuegoGuerra,Mazo,Carta
 import unittest
 
@@ -20,7 +20,7 @@ class TestMazo(unittest.TestCase):
         carta2=Carta('3','corazones')
         self.mazo.poner_arriba(carta1)
         self.mazo.poner_arriba(carta2)
-        self.assertIs(carta2, self.mazo.mazo.items[0])
+        self.assertIs(carta2, self.mazo.mazo.cabeza.dato)
         carta_control=self.mazo.sacar_arriba()
         self.assertIs(carta2, carta_control)
 
@@ -29,7 +29,7 @@ class TestMazo(unittest.TestCase):
         carta2=Carta('3','corazones')
         self.mazo.poner_abajo(carta1)
         self.mazo.poner_abajo(carta2)
-        self.assertIs(carta2, self.mazo.mazo.items[-1])
+        self.assertIs(carta2, self.mazo.mazo.cola.dato)
         
         
 if __name__ == '__main__':
