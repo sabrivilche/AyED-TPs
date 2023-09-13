@@ -6,7 +6,7 @@ class ListaDobleEnlazada:
     def __init__(self):
         self.cabeza = None
         self.cola = None
-        self.tamanio = 0
+        self.tamanio = 0 #almacena el número de nodos en la lista
 
     def __len__ (self):
         return self.tamanio
