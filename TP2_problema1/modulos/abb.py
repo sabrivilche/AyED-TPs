@@ -1,75 +1,94 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime#Importo módulo datetime, para manipular fechas y horas
 
-class Nodo:
+
+class NodoABB:
     def __init__(self, clave, valor):
         self.clave = clave
         self.valor = valor
-        self.hijoIzquierdo = None
-        self.hijoDerecho = None
+        self.izquierda = None
+        self.derecha = None
+
 class ABB:
-
     def __init__(self):
-        self.raiz =None#inicializo base de datos
-        
-    def guardar_temperature(self, temperatura,fecha):#Método que guarda nuevas temperaturas en la base de datos
-        fecha=datetime.strptime(fecha,'%d/%m/%Y')#Convertimos la fecha (string), a un objeto datetime,
-        #así comparamos fechas más eficientemente
-        self.raiz.insert(fecha,temperatura)#Insertamos la temperatura en la base de datos, usando la fecha como clave
+        self.raiz = None
+        self.tamano = 0
 
-    def devolver_temperatura(self,fecha):#Método para obtener un temperatura de una fecha específica
-        fecha=datetime.strptime(fecha,'%d/%m/%Y')
-        returnself.raiz.find(fecha)#Buscamos la temperatura de la fecha específica en la base de datos y la devolvemos
+    def agregar(self, clave, valor):
+        self.raiz = self._agregar(self.raiz, clave, valor)
 
-    def max_temp_rango(self,fecha1,fecha2):
-        fecha1=datetime.strptime(fecha1,'%d/%m/%Y')
-        fecha2=datetime.strptime(fecha2,'%d/%m/%Y')
-        return self.raiz.find.max(fecha1,fecha2)#Buscamos la tempertura máxima en el rango especificado y
-        #lo devolvemos
+    def _agregar(self, nodo, clave, valor):
+        if nodo is None:
+            return NodoABB(clave, valor)
 
-    def min_temp_rango(self,fecha1,fecha2):
-        fecha1=datetime.strptime(fecha1,'%d/%m/%Y')
-        fecha2=datetime.strptime(fecha2,'%d/%m/%Y')
-        return self.raiz.find.min(fecha1,fecha2)
+        if clave < nodo.clave:
+            nodo.izquierda = self._agregar(nodo.izquierda, clave, valor)
+        elif clave > nodo.clave:
+            nodo.derecha = self._agregar(nodo.derecha, clave, valor)
 
-    def temp_extremos_rango(self,fecha1,fecha2):
-        return self.min_temp_rango(fecha1,fecha2), self.max_temp_rango(fecha1,fecha2)
-    
-    def borrar_temperatur(self,fecha):
-        fecha=datetime.strptime(fecha,'%d/%m/%Y')
-        self.raiz.delete(fecha)
-    
-    def devolver_temperaturas(self,fecha1,fecha2):
-        fecha1=datetime.strptime(fecha1,'%d/%m/%Y')
-        fecha2=datetime.strptime(fecha2,'%d/%m/%Y')
-        temperaturas=self.raiz.find.range(fecha1,fecha2)
+        return nodo
 
-        return [f'{fecha.strftime("%d/%m/%Y")}: {temp} ºC' for fecha, temp in temperaturas]
-    
-    def cantidad_muestras(self):
-        return self.raiz.size()
+    def eliminar(self, clave):
+        self.raiz = self._eliminar(self.raiz, clave)
 
-    def agregar(self, clave, valor):#método para agregar una nueva clave y valor al árbol
-            if self.raiz is None:#si el árbol está vacío
-                self.raiz = Nodo(clave, valor)#crea un nuevo nodo y lo establece como la raíz
-            else:#si no está vacío 
-                self._agregar(clave, valor, self.raiz)#llama al método _agregar
-                #que agrega recursivamene el nuevo nodo en la posición correcta del árbol
+    def _eliminar(self, nodo, clave):
+        if nodo is None:
+            return nodo
 
-    def _agregar(self, clave, valor, nodo):
-        if clave < nodo.clave:#comprueba  si la clave que se va a agregar es menor que la clave del nodo actual
-            if nodo.hijoIzquierdo is None:#si la clave es menor y el nodo actual no tiene un hijo izquierdo, entonces:
-                nodo.hijoIzquierdo = Nodo(clave, valor)#crea un nuevo nodo con la clave y el valor dado, y lo asigna
-                #como el hijo izquierdo del nodo actual
-            
-            else:#si el nodo actual ya tiene un hijo izquierdo:
-                self._agregar(clave, valor, nodo.hijoIzquierdo)#llama a la función _agregar de nuevo
-                #pero esta vez con el hijo izquierdo del nodo actual como el nuevo nodo actual
-        
-        else:#si la clave que se va a agregar no es menor que la clave del nodo actual(es mayor o igual)
-            if nodo.hijoDerecho is None:#y si el nodo actul no tiene un hijo derecho
-                nodo.hijoDerecho = Nodo(clave, valor)#crea un nuevo nodo con la clave y el valor dado, y lo asigna
-                #como el hijo derecho del nodo actual
-            else:#si el nodo actual ya tiene un hijo derecho:
-                self._agregar(clave, valor, nodo.hijoDerecho)#llama a la función _agregar de nuevo, pero con el hijo derecho
-                #del nodo actual como el nuevo nodo actual
+        if clave < nodo.clave:
+            nodo.izquierda = self._eliminar(nodo.izquierda, clave)
+        elif clave > nodo.clave:
+            nodo.derecha = self._eliminar(nodo.derecha, clave)
+        else:
+            # Caso 1: Nodo con un hijo o sin hijos
+            if nodo.izquierda is None:
+                return nodo.derecha
+            elif nodo.derecha is None:
+                return nodo.izquierda
+
+            # Caso 2: Nodo con dos hijos
+            sucesor = self._encontrar_sucesor(nodo.derecha)
+            nodo.clave = sucesor.clave
+            nodo.derecha = self._eliminar(nodo.derecha, sucesor.clave)
+
+        return nodo
+
+    def obtener(self, clave):
+        return self._obtener(self.raiz, clave)
+
+    def _obtener(self, nodo, clave):
+        if nodo is None:
+            raise KeyError(f"Clave '{clave}' no encontrada en el árbol")
+
+        if clave == nodo.clave:
+            return nodo.valor
+        elif clave < nodo.clave:
+            return self._obtener(nodo.izquierda, clave)
+        else:
+            return self._obtener(nodo.derecha, clave)
+
+    def __contains__(self, clave):
+        try:
+            self._obtener(self.raiz, clave)
+            return True
+        except KeyError:
+            return False
+
+    def __getitem__(self, clave):
+        return self.obtener(clave)
+
+    def __setitem__(self, clave, valor):
+        self.agregar(clave, valor)
+
+    def __delitem__(self, clave):
+        self.eliminar(clave)
+
+    def __iter__(self):
+        return self._inorden(self.raiz)
+
+    def _inorden(self, nodo):
+        if nodo is not None:
+            yield from self._inorden(nodo.izquierda)
+            yield (nodo.clave, nodo.valor)
+            yield from self._inorden(nodo.derecha)
+
