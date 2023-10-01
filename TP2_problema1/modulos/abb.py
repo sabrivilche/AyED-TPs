@@ -9,7 +9,7 @@ class NodoABB:
         self.hijoIzquierdo = None
         self.hijoDerecho = None
         self.cargaUtil = valor
-        
+
     def esHoja(self):
         return self.hijoIzquierdo is None and self.hijoDerecho is None
 
@@ -25,8 +25,12 @@ class ABB:
         self.raiz = None
         self.tamano = 0
 
+    def __len__(self):
+        return self.tamano
+
     def agregar(self, clave, valor):
         self.raiz = self._agregar(self.raiz, clave, valor)
+        self.tamano += 1
 
     def _agregar(self, nodo, clave, valor):
         if nodo is None:
@@ -44,10 +48,24 @@ class ABB:
 
     def eliminar(self, clave):
         self.raiz = self._eliminar(self.raiz, clave)
+        self.tamano -= 1
+    
+    def _encontrar_sucesor(self, nodo):
+        
+        # Encuentra el sucesor de un nodo dado (el nodo más pequeño en su subárbol derecho).
+        
+        if nodo is None:
+            return None
 
+        actual = nodo
+        while actual.hijoIzquierdo is not None:
+            actual = actual.hijoIzquierdo
+
+        return actual
+    
     def _eliminar(self, nodo, clave):
         if nodo is None:
-            return nodo
+            raise KeyError(f"Clave '{clave}' no encontrada en el árbol")  # Lanzar excepción si la clave no existe
 
         if clave < nodo.clave:
             nodo.hijoIzquierdo = self._eliminar(nodo.hijoIzquierdo, clave)
@@ -114,20 +132,20 @@ class ABB:
 
     def max_temp_rango(self, fecha1, fecha2):
         max_temp = float("-inf")
-        for fecha, temp in self._in_rango(fecha1, fecha2):
+        for self.fecha, temp in self._in_rango(fecha1, fecha2):
             max_temp = max(max_temp, temp)
         return max_temp
 
     def min_temp_rango(self, fecha1, fecha2):
         min_temp = float("inf")
-        for fecha, temp in self._in_rango(fecha1, fecha2):
+        for self.fecha, temp in self._in_rango(fecha1, fecha2):
             min_temp = min(min_temp, temp)
         return min_temp
 
     def temp_extremos_rango(self, fecha1, fecha2):
         min_temp = float("inf")
         max_temp = float("-inf")
-        for fecha, temp in self._in_rango(fecha1, fecha2):
+        for self.fecha, temp in self._in_rango(fecha1, fecha2):
             min_temp = min(min_temp, temp)
             max_temp = max(max_temp, temp)
         return min_temp, max_temp
