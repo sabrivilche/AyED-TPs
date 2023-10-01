@@ -24,48 +24,48 @@ class Testabb(unittest.TestCase):
         for clave in claves:
             self.assertEqual( self.abb.obtener(clave), 2*clave )        
     
-    # def test_insercion(self):
-    #     """
-    #     Verifica la insercion binaria tradicional
-    #     """
-    #     self.agregar_claves(45, 100, 20, 80, 10, 110, 50)
-    #     # verifico posicion relativa desde la raiz
-    #     self.assertEqual(self.abb.raiz.clave, 45,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.cargaUtil, 90,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoDerecho.clave, 100,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoDerecho.cargaUtil, 200,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoIzquierdo.clave, 20,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoIzquierdo.cargaUtil, 40,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoDerecho.hijoIzquierdo.clave, 80,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoDerecho.hijoIzquierdo.cargaUtil, 160,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.clave, 10,
-    #                      "Nodo insertado incorrectamente")
-    #     self.assertEqual(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.cargaUtil, 20,
-    #                      "Nodo insertado incorrectamente")
-    #     # verifico nodos hojas
-    #     self.assertTrue(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.esHoja(), 
-    #                     "Nodo 10 debe ser un nodo hoja")
-    #     self.assertTrue(self.abb.raiz.hijoDerecho.hijoIzquierdo.hijoIzquierdo.esHoja(), 
-    #                     "Nodo 50 debe ser un nodo hoja")
-    #     self.assertTrue(self.abb.raiz.hijoDerecho.hijoDerecho.esHoja(), 
-    #                     "Nodo 110 debe ser un nodo hoja")
-    #     # verifico nodos internos
-    #     self.assertFalse(self.abb.raiz.esHoja(), 
-    #                      "Nodo 45 debe ser nodo interno, no un nodo hoja")
-    #     self.assertFalse(self.abb.raiz.hijoIzquierdo.esHoja(), 
-    #                      "Nodo 20 debe ser nodo interno, no un nodo hoja")
-    #     self.assertFalse(self.abb.raiz.hijoDerecho.esHoja(), 
-    #                      "Nodo 100 debe ser un nodo interno, no un nodo hoja")
-    #     self.assertFalse(self.abb.raiz.hijoDerecho.hijoIzquierdo.esHoja(), 
-    #                      "Nodo 80 debe ser un nodo interno, no un nodo hoja")
+    def test_insercion(self):
+        """
+        Verifica la insercion binaria tradicional
+        """
+        self.agregar_claves(45, 100, 20, 80, 10, 110, 50)
+        # verifico posicion relativa desde la raiz
+        self.assertEqual(self.abb.raiz.clave, 45,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.cargaUtil, 90,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoDerecho.clave, 100,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoDerecho.cargaUtil, 200,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoIzquierdo.clave, 20,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoIzquierdo.cargaUtil, 40,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoDerecho.hijoIzquierdo.clave, 80,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoDerecho.hijoIzquierdo.cargaUtil, 160,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.clave, 10,
+                         "Nodo insertado incorrectamente")
+        self.assertEqual(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.cargaUtil, 20,
+                         "Nodo insertado incorrectamente")
+        # verifico nodos hojas
+        self.assertTrue(self.abb.raiz.hijoIzquierdo.hijoIzquierdo.esHoja(), 
+                        "Nodo 10 debe ser un nodo hoja")
+        self.assertTrue(self.abb.raiz.hijoDerecho.hijoIzquierdo.hijoIzquierdo.esHoja(), 
+                        "Nodo 50 debe ser un nodo hoja")
+        self.assertTrue(self.abb.raiz.hijoDerecho.hijoDerecho.esHoja(), 
+                        "Nodo 110 debe ser un nodo hoja")
+        # verifico nodos internos
+        self.assertFalse(self.abb.raiz.esHoja(), 
+                         "Nodo 45 debe ser nodo interno, no un nodo hoja")
+        self.assertFalse(self.abb.raiz.hijoIzquierdo.esHoja(), 
+                         "Nodo 20 debe ser nodo interno, no un nodo hoja")
+        self.assertFalse(self.abb.raiz.hijoDerecho.esHoja(), 
+                         "Nodo 100 debe ser un nodo interno, no un nodo hoja")
+        self.assertFalse(self.abb.raiz.hijoDerecho.hijoIzquierdo.esHoja(), 
+                         "Nodo 80 debe ser un nodo interno, no un nodo hoja")
     
     # def test_operador_contains(self):
     #     """
