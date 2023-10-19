@@ -56,6 +56,7 @@ class Vertice:
 
     def obtenerPrecio(self,vecino):
         return self.conectadoA[vecino][1]
+    
 class Grafo:
     def __init__(self):
         self.listaVertices = {}
@@ -89,69 +90,49 @@ class Grafo:
     def __iter__(self):
         return iter(self.listaVertices.values())
 
-def dijkstra_max_bottleneck(graph, start, end):
-    cp = ColaPrioridad()
-    start_vertex = graph.obtenerVertice(start)
-    start_vertex.asignarDistancia(float('inf'))
-    start_vertex.precio=0#Iniciamos precio a 0 para el vertice inicial
-    cp.insertar(start_vertex, -start_vertex.obtenerDistancia())
-
-    while not cp.esta_vacia():
-        vertex_actual = cp.obtener()
-
-        for vertex_siguiente in vertex_actual.obtenerConexiones():
-            nueva_distancia = min(vertex_actual.obtenerDistancia(), vertex_actual.obtenerPonderacion(vertex_siguiente))
-            nuevo_precio=vertex_actual.precio+vertex_actual.obtenerPrecio(vertex_siguiente)#Sumamos el precio de la arista
-            
-            if nueva_distancia > vertex_siguiente.obtenerDistancia():
-                vertex_siguiente.asignarDistancia(nueva_distancia)
-                vertex_siguiente.precio=nuevo_precio#Actualizamos nuevo precio
-                vertex_siguiente.asignarPredecesor(vertex_actual)
-                cp.decrementar_clave(vertex_siguiente, -nueva_distancia)
-                
-   
-    end_vertex = graph.obtenerVertice(end)
-    max_bottleneck = end_vertex.obtenerDistancia()
-    min_price=end_vertex.precio#Obtenemos el precio minimo
-    return max_bottleneck,min_price
 
 
-if __name__ == "__main__":
-    graph = Grafo()
+def dijkstra_max_weight(graph, start_city, end_city):
+    cola = ColaPrioridad()
+    distancias = {city: float("-inf") for city in graph.listaVertices}
+    distancias[start_city] = float("inf")
+    cola.insertar(start_city, float("inf"))
 
-    # Crear un conjunto para almacenar todas las ciudades
-    ciudades = set()
+    while not cola.esta_vacia():
+        current_city = cola.obtener()
+        if current_city == end_city:
+            return distancias[current_city]
 
-    # Leo los datos dentro de ruta y creo el grafo
-    with open("rutas.txt", 'r') as file:
-        for line in file:
-            start, end, capacity, price = line.strip().split(',')
-            capacity = int(capacity)
-            price=int(price)
-            ciudades.add(start)
-            ciudades.add(end)
-            graph.agregarArista(start, end, capacity,price)
+        current_vertex = graph.listaVertices[current_city]
 
-    start_city = "CiudadBs.As."#se establece ciudad de incio para el cálculo del camino más corto
-    #Se inicializamn variables que almacenaarán la ciudad con el mayor peso maximo(cuello botella), el peso max y el precio min 
-    max_bottleneck_city = None
-    max_bottleneck_weight = 0
-    min_price_for_max_bottleneck = float('inf')
+        for neighbor in current_vertex.obtenerConexiones():
+            neighbor_city = neighbor.id
+            weight = current_vertex.obtenerPonderacion(neighbor)
+            possible_weight = min(distancias[current_city], weight)
+            if possible_weight > distancias[neighbor_city]:
+                distancias[neighbor_city] = possible_weight
+                cola.insertar(neighbor_city, possible_weight)
 
-    for end_city in ciudades:
-        if start_city != end_city:
-            max_bottleneck, min_price = dijkstra_max_bottleneck(graph, start_city, end_city)
-            if max_bottleneck > max_bottleneck_weight or (max_bottleneck == max_bottleneck_weight and min_price < min_price_for_max_bottleneck):
-                max_bottleneck_city = end_city
-                max_bottleneck_weight = max_bottleneck
-                min_price_for_max_bottleneck = min_price
+    return float("-inf")
 
-    print(f"La ciudad con el mayor peso máximo desde {start_city} es {max_bottleneck_city} con un peso de {max_bottleneck_weight} kg y con el menor precio de {min_price_for_max_bottleneck}.")
-    # Calcular el mayor peso desde bs as a la otra ciudad
-    #for end_city in ciudades:
-     #   if start_city != end_city:
-      #      max_bottleneck,min_price = dijkstra_max_bottleneck(graph, start_city, end_city)
+grafo = Grafo()#Crea el grafo con los datos que están dentro del archivo "rutas.txt"
+with open("rutas.txt", "r") as archivo:
+    lineas = archivo.readlines()
+    for linea in lineas:
+        #separo los datos por ,
+        elementos = linea.strip().split(",")
 
-       #     print(f"El peso máximo que se puede transportar desde {start_city} a {end_city} es {max_bottleneck} kg. Precio: {min_price}")
+        
+        ciudad_origen = elementos[0]
+        ciudad_destino = elementos[1]
+        peso = int(elementos[2])
+        precio = int(elementos[3])
 
+        # Agrego la arista
+        grafo.agregarArista(ciudad_origen, ciudad_destino, peso, precio)
 
+start_city = 'CiudadBs.As.'
+end_city = 'VillaMercedes' 
+
+max_weight = dijkstra_max_weight(grafo, start_city, end_city)
+print(f'El peso máximo desde {start_city} a {end_city} es: {max_weight}')
