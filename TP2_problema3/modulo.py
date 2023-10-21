@@ -29,7 +29,7 @@ class Vertice:
         self.conectadoA = {}
         self.distancia = 0
         self.predecesor = None
-        self.precio=float('inf')#Agrego atributo precio
+        self.precio=float('inf')
     def agregarVecino(self, vecino, ponderacion=0,precio=0):
         self.conectadoA[vecino] = (ponderacion,precio)#Guardamos el precio junto con la ponderación
 
@@ -115,11 +115,32 @@ def dijkstra_max_weight(graph, start_city, end_city):
 
     return float("-inf")
 
+def dijkstra_min_cost(graph, start_city, end_city):
+    cola = ColaPrioridad()
+    costos = {city: float("inf") for city in graph.listaVertices}
+    costos[start_city] = 0
+    cola.insertar(start_city, 0)
+
+    while not cola.esta_vacia():
+        current_city = cola.obtener()
+        if current_city == end_city:
+            return costos[current_city]
+
+        current_vertex = graph.listaVertices[current_city]
+
+        for neighbor in current_vertex.obtenerConexiones():
+            neighbor_city = neighbor.id
+            cost = current_vertex.obtenerPrecio(neighbor)  # Asume que obtenerCosto() devuelve el costo de la arista
+            possible_cost = costos[current_city] + cost
+            if possible_cost < costos[neighbor_city]:
+                costos[neighbor_city] = possible_cost
+                cola.insertar(neighbor_city, -possible_cost)
+
 grafo = Grafo()#Crea el grafo con los datos que están dentro del archivo "rutas.txt"
 with open("rutas.txt", "r") as archivo:
     lineas = archivo.readlines()
     for linea in lineas:
-        #separo los datos por ,
+        #separo los datos por ","
         elementos = linea.strip().split(",")
 
         
@@ -132,7 +153,9 @@ with open("rutas.txt", "r") as archivo:
         grafo.agregarArista(ciudad_origen, ciudad_destino, peso, precio)
 
 start_city = 'CiudadBs.As.'
-end_city = 'VillaMercedes' 
+end_city = 'Mendoza' 
 
 max_weight = dijkstra_max_weight(grafo, start_city, end_city)
 print(f'El peso máximo desde {start_city} a {end_city} es: {max_weight}')
+min_cost=dijkstra_min_cost(grafo, start_city, end_city)
+print(f'El precio mínimo desde {start_city} a {end_city} es: {min_cost}')
