@@ -130,7 +130,7 @@ def dijkstra_min_cost(graph, start_city, end_city):
 
         for neighbor in current_vertex.obtenerConexiones():
             neighbor_city = neighbor.id
-            cost = current_vertex.obtenerPrecio(neighbor)  # Asume que obtenerCosto() devuelve el costo de la arista
+            cost = current_vertex.obtenerPrecio(neighbor)  #obtenerPrecio() devuelve el precio de la arista
             possible_cost = costos[current_city] + cost
             if possible_cost < costos[neighbor_city]:
                 costos[neighbor_city] = possible_cost
