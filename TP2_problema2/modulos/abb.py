@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime#Importo módulo datetime, para manipular fechas y horas
 
-
 class NodoABB:
     def __init__(self, clave, valor):
         self.clave = clave #Clave del nodo, la uso para ordenar el árbol
