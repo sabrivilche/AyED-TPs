@@ -2,7 +2,7 @@
 
 
 import unittest
-from TP2_problema1.modulos.abb import ABB
+from TP2_problema2.modulos.abb import ABB
 import numpy as np
 
 
