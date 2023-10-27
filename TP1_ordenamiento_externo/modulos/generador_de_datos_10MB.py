@@ -34,25 +34,45 @@ def crear_archivo_de_datos(nombre):
 crear_archivo_de_datos('datos.txt')
 
 def mezcla_directa(nombre):
-    B=1000
-    # Leer el archivo y dividirlo en bloques de B claves
-    bloques = [] #almacenará los bloques de claves ordenadas
-    with open('datos.txt', 'r') as archivo: 
-        bloque = [] #almacena las claves del bloque actual
-        for linea in archivo:
-            bloque.append(int(linea.strip())) #elimina los espacios en blanco, convierte los valores en enteros y los agrega a la lista bloque
-            if len(bloque) == B: 
-                bloques.append(sorted(bloque)) #se ordena el bloque y se agrega a la lista bloques
-                bloque = [] #reinicio la lista bloque
-        if bloque: #si bloque no está vacío
-            bloques.append(sorted(bloque)) #se ordenan las claves que quedaban y se agregan a la lista bloques
+    B = 1000 # tamaño del bloque
+    bloques = [] # almacenará los bloques de claves ordenadas
+    archivo_entrada = open(nombre, 'r')
+    archivo_salida = open('salida.txt', 'w')
+    archivo_salida.close()
+    i = 0
+    while True:
+        bloque = []
+        for j in range(B):
+            linea = archivo_entrada.readline()
+            if not linea:
+                break
+            bloque.append(int(linea.strip()))
+        if not bloque:
+            break
+        bloques.append(bloque)
+        i += 1
+    archivo_entrada.close()
 
-    # Ordenar los bloques y escribirlos en el archivo
-    with open('datos.txt', 'w') as archivo:
-        for bloque in bloques: #itera sobre cada bloque dentro de bloques
-            for clave in bloque: #itera sobre cada clave dentro de bloque
-                archivo.write(str(clave) + '\n') #se escribe cada clave en el archivo como cadena de texto
+    while len(bloques) > 1:
+        bloque1 = bloques.pop(0)
+        bloque2 = bloques.pop(0)
+        resultado = []
+        i = j = 0
+        while i < len(bloque1) and j < len(bloque2):
+            if bloque1[i] < bloque2[j]:
+                resultado.append(bloque1[i])
+                i += 1
+            else:
+                resultado.append(bloque2[j])
+                j += 1
+        resultado += bloque1[i:]
+        resultado += bloque2[j:]
+        bloques.append(resultado)
 
+    with open('salida.txt', 'a') as archivo_salida:
+        for clave in bloques[0]:
+            archivo_salida.write(str(clave) + '\n')
+ 
 def verificar_ordenamiento(nombre):
     # Leer el archivo y verificar que las claves estén ordenadas
     claves = []
