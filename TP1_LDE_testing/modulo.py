@@ -1,5 +1,5 @@
-import random
-import unittest
+# import random
+# import unittest
 from TP1_LDE_testing.Nodo import Nodo
 
 class ListaDobleEnlazada:
@@ -138,8 +138,11 @@ class ListaDobleEnlazada:
     def _quick_sort(self, inicio, fin):#inicio y fin para definir el rango de la lista
         if inicio is not None and inicio != fin and inicio != fin.siguiente: #verifico si inicio no es igual a fin y si inicio no es igual al siguiente de fin
             pivote = self._particionar(inicio, fin) #llamo al método particionar para dividir el rango en 2, menores a la izq y mayores a la derecha del pivote
-            self._quick_sort(inicio, pivote.anterior) #se ordena la mitad desde inicio hasta el anterior al pivote
-            self._quick_sort(pivote.siguiente, fin) #se ordena la mitad desde el siguiente del pivote hasta fin
+            if pivote:
+                if pivote.anterior:
+                    self._quick_sort(inicio, pivote.anterior) #se ordena la mitad desde inicio hasta el anterior al pivote
+                if pivote.siguiente:
+                    self._quick_sort(pivote.siguiente, fin) #se ordena la mitad desde el siguiente del pivote hasta fin
 
     def _particionar(self, inicio, fin):
         pivote = fin #nodo final del rango actual de la lista
