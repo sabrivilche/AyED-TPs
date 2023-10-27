@@ -34,7 +34,7 @@ class Mazo:
 class JuegoGuerra:
     valor = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
     palo = ['♠', '♥', '♦', '♣']
-    def _init_(self, semilla, cartas_jugador1, cartas_jugador2):
+    def __init__(self, semilla, cartas_jugador1, cartas_jugador2):
         self.cartas_jugador1 = Mazo(cartas_jugador1)
         self.cartas_jugador2 = Mazo(cartas_jugador2)
         self.turno = 0
