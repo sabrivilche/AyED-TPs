@@ -207,3 +207,5 @@ class ListaDobleEnlazada:
             nodo_actual = nodo_actual.anterior #para avanzar en la lista le asigno al nodo_actual el nodo anterior, para poder moverme hacia atrás
 
         self.cabeza,self.cola = self.cola, self.cabeza #para asegurarme de que se invierta la lista    
+
+
