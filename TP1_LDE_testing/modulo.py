@@ -138,17 +138,19 @@ class ListaDobleEnlazada:
 
     def _quick_sort(self, inicio, fin):#inicio y fin para definir el rango de la lista
         if inicio is not None and inicio != fin and inicio != fin.siguiente: #verifico si inicio no es igual a fin y si inicio no es igual al siguiente de fin
-            pivote_choices = [inicio, self._find_medio (inicio, fin), fin]
-            pivote = random.choice (pivote_choices)
-            pivote = self._particionar(inicio, fin, pivote)
+            pivote_choices = [inicio, self._find_medio (inicio, fin), fin] #los posibles pivotes para usar en el algoritmo quick sort
+            pivote = random.choice (pivote_choices) #selecciono uno de los anteriores aleatoriamente
+            pivote = self._particionar(inicio, fin, pivote) #se le asigna el resultado de _particionar a la variable pivote, se divide el rango en 2 partes
 
-            if pivote:
-                if pivote.anterior:
-                    self._quick_sort(inicio, pivote.anterior)
-                if pivote.siguiente:
-                    self._quick_sort(pivote.siguiente, fin)
-    
-    def _find_medio (self, inicio, fin):
+            if pivote: #si el pivote no es nulo
+                if pivote.anterior: #verifica que el pivote tenga un nodo anterior
+                    self._quick_sort(inicio, pivote.anterior) #se llama de forma recursiva a _quick_sort para ordenar la mitad izquierda del rango
+                    #va desde inicio hasta el nodo anterior al pivote
+                if pivote.siguiente: #verifica que el pivote tenga un nodo siguiente
+                    self._quick_sort(pivote.siguiente, fin) #se llama de forma recursica a _quick_sort y se ordena la mitad derecha del rango
+                    #va desde el nodo siguiente al pivote hasta fin
+
+    def _find_medio (self, inicio, fin): #esta función se encarga de encontrar un nodo en el medio del rango que se especifique
         slow = inicio
         fast = inicio
         while fast != fin and fast.siguiente != fin:
