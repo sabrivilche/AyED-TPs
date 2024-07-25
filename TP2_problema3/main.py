@@ -15,10 +15,12 @@ with open("rutas.txt", "r") as archivo:
         grafo.agregarArista(ciudad_origen, ciudad_destino, peso, precio)
 
 start_city = 'CiudadBs.As.'
-end_city = 'Mendoza' 
+end_city = input("Ingresa la ciudad de destino: ")  
 
-max_weight = dijkstra_max_weight(grafo, start_city, end_city)
+max_weight, camino_max = dijkstra_max_weight(grafo, start_city, end_city)
 print(f'El peso máximo desde {start_city} a {end_city} es: {max_weight}')
+print(f'Camino para peso máximo: {" -> ".join(camino_max)}')
 
-min_cost=dijkstra_min_cost(grafo, start_city, end_city)
+min_cost, camino_min = dijkstra_min_cost(grafo, start_city, end_city)
 print(f'El precio mínimo desde {start_city} a {end_city} es: {min_cost}')
+print(f'Camino para precio mínimo: {" -> ".join(camino_min)}')

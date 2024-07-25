@@ -51,17 +51,17 @@ class ABB:
         self.raiz = self._eliminar(self.raiz, clave)
         self.tamano -= 1
     
-    def _encontrar_sucesor(self, nodo):# Encuentra el sucesor de un nodo dado (el nodo más pequeño en su subárbol derecho).
-        
+    def _encontrar_sucesor(self, nodo):# Encuentra el sucesor de un nodo dado (el nodo más pequeño en su subárbol derecho)
+        # en el subárbol derecho, estamos buscando un nodo que sea mayor que el nodo actual pero aún lo más pequeño posible.
         if nodo is None:
             return None
 
         actual = nodo
         
         while actual.hijoIzquierdo is not None:
-            actual = actual.hijoIzquierdo
-
-        return actual
+            actual = actual.hijoIzquierdo#actualiza actual con su hijoIzquierdo
+        #se  mueve hacia la izquierda en el subárbol derecho, ya que el sucesor siempre estará en esa dirección
+        return actual#cuando no hay más hijos izquierdos, se llegó al nodo más pequeño, y se devuelve ese como sucesor
     
     def _eliminar(self, nodo, clave):
         if nodo is None:
