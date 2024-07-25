@@ -8,7 +8,7 @@ class NodoABB:
         self.hijoIzquierdo = None #Punteros a los hijos izquierdo y derecho en el árbol
         self.hijoDerecho = None
         self.cargaUtil = valor
-
+        
     def esHoja(self): #Verifica que el nodo sea una hoja, que no tenga hijos
         return self.hijoIzquierdo is None and self.hijoDerecho is None
 
@@ -31,7 +31,7 @@ class ABB:
         self.raiz = self._agregar(self.raiz, clave, valor)
         self.tamano += 1 #Incremento el tamaño del árbol después de agregar los elementos
 
-    def _agregar(self, nodo, clave, valor): #Método auxiliar para realizar la inserción de un nodo al árbol
+    def _agregar(self, nodo, clave, valor): #Método auxiliar para realizar la inserción (real)de un nodo al árbol
         if nodo is None:
             return NodoABB(clave, valor) #Si el nodo actual es None creo un nuevo nodo
 
@@ -74,7 +74,7 @@ class ABB:
             nodo.hijoDerecho = self._eliminar(nodo.hijoDerecho, clave)
         
         else:
-            # Caso 1: Nodo con un hijo o sin hijos
+            # Caso 1: Nodo con un hijo, si no hay hijos devuelve None
             if nodo.hijoIzquierdo is None:
                 return nodo.hijoDerecho
             elif nodo.hijoDerecho is None:
@@ -82,7 +82,7 @@ class ABB:
 
             # Caso 2: Nodo con dos hijos
             sucesor = self._encontrar_sucesor(nodo.hijoDerecho)
-            nodo.clave = sucesor.clave
+            nodo.clave = sucesor.clave#se actualiza la clave del nodo actual con la del sucesor
             nodo.hijoDerecho = self._eliminar(nodo.hijoDerecho, sucesor.clave)
 
         return nodo
@@ -98,7 +98,7 @@ class ABB:
             return nodo.valor
         
         elif clave < nodo.clave:
-            return self._obtener(nodo.hijoIzquierdo, clave)
+            return self._obtener(nodo.hijoIzquierdo, clave)#se llama recursivamente _obtener en el nodo del hijoIzquierdo
         
         else:
             return self._obtener(nodo.hijoDerecho, clave)
@@ -140,7 +140,7 @@ class ABB:
         max_temp = float("-inf") #Inicializo la variable con un valor negativo infinito para que cualquier temperatura que se encuentre dentro del rango sea mayor que max_temp
         
         for self.fecha, temp in self._in_rango(fecha1, fecha2): #_in_rango proporciona pares de fechas y temperaturas dentro del rango dado
-            max_temp = max(max_temp, temp)
+            max_temp = max(max_temp, temp)#Actualiza max_temp con el máximo entre su valor actual y la temperatura actual.
         
         return max_temp
 
@@ -160,7 +160,7 @@ class ABB:
             min_temp = min(min_temp, temp)
             max_temp = max(max_temp, temp)
         
-        return min_temp, max_temp
+        return min_temp, max_temp#devuelve una tupla
 
     def borrar_temperatura(self, fecha):
         self.eliminar(fecha)
@@ -176,13 +176,13 @@ class ABB:
     def cantidad_muestras(self):
         return self.tamano
 
-    def _in_rango(self, fecha1, fecha2):
+    def _in_rango(self, fecha1, fecha2):#genera pares de fechas y temperaturas en un rango específico
         if fecha1 > fecha2:
             fecha1, fecha2 = fecha2, fecha1
         
-        return self._in_rango_rec(self.raiz, fecha1, fecha2)
+        return self._in_rango_rec(self.raiz, fecha1, fecha2)#llama al método auxiliar _in_rango_rec para realizar la búsqueda dentro del rango
 
-    def _in_rango_rec(self, nodo, fecha1, fecha2):
+    def _in_rango_rec(self, nodo, fecha1, fecha2):#método auxiliar que realiza la búsqueda real dentro del rango de fechas.
         if nodo is not None:
             if fecha1 <= nodo.clave <= fecha2: #Verifico que el nodo actual esté dentro del rango de fechas
                 yield nodo.clave, nodo.valor #Genero un par clave-valor que contenga la fecha y el valor del nodo actual
